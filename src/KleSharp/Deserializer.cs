@@ -216,7 +216,7 @@ namespace KleSharp
 							newKey.Width2 == 0 ? currentKey.Width : currentKey.Width2;
 						newKey.Height2 =
 							newKey.Height2 == 0 ? currentKey.Height : currentKey.Height2;
-						newKey.Labels = ParseLabels(value.Split('\n'), align);
+						newKey.Labels = ParseLabels(Split(value, '\n'), align);
 						newKey.TextSize = ParseLabels(newKey.TextSize, align);
 
 						// cleanup the data
@@ -285,9 +285,7 @@ namespace KleSharp
 						if (!string.IsNullOrEmpty(raw.c)) currentKey.Color = raw.c;
 						if (!string.IsNullOrEmpty(raw.t))
 						{
-							var colors = raw.t.Split('\n')
-								.Select(c => string.IsNullOrEmpty(c) ? null : c)
-								.ToList();
+							var colors = Split(raw.t, '\n');
 							if (!string.IsNullOrEmpty(colors[0])) currentKey.Default.TextColor = colors[0];
 							currentKey.TextColor = ParseLabels(colors, align);
 						}
@@ -358,6 +356,13 @@ namespace KleSharp
 			return ret;
 		}
 
+
+		private List<string> Split(string input, params char[] separator)
+		{
+			return input.Split(separator)
+				.Select(c => string.IsNullOrEmpty(c) ? null : c)
+				.ToList();
+		}
 
 		private (IList<(JToken, int)> metadata, IList<JToken> rows) Load(string json)
 		{
