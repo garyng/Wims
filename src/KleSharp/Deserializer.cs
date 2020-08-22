@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Globalization;
 using System.Linq;
 using Force.DeepCloner;
 using MoreLinq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace KleSharp
@@ -149,15 +146,15 @@ namespace KleSharp
 
 	public class KeyboardMetadata
 	{
-		public string Author { get; set; }
-		public string BackColor { get; set; }
+		public string Author { get; set; } = "";
+		public string BackColor { get; set; } = "#eeeeee";
 		public KeyboardBackground Background { get; set; }
-		public string Name { get; set; }
-		public string Radii { get; set; }
+		public string Name { get; set; } = "";
+		public string Radii { get; set; } = "";
 
-		public string SwitchMount { get; set; }
-		public string SwitchBrand { get; set; }
-		public string SwitchType { get; set; }
+		public string SwitchMount { get; set; } = "";
+		public string SwitchBrand { get; set; } = "";
+		public string SwitchType { get; set; } = "";
 	}
 
 	public class KeyboardBackground
@@ -168,7 +165,7 @@ namespace KleSharp
 
 	public class Keyboard
 	{
-		public KeyboardMetadata Metadata { get; set; }
+		public KeyboardMetadata Meta { get; set; } = new KeyboardMetadata();
 		public List<Key> Keys { get; set; } = new List<Key>();
 	}
 
@@ -190,15 +187,16 @@ namespace KleSharp
 			}
 
 			var metadata = metadatas
-				.Select(meta => meta.Item1)
-				.SingleOrDefault()
-				?.ToObject<KeyboardMetadata>();
+				               .Select(meta => meta.Item1)
+				               .SingleOrDefault()
+				               ?.ToObject<KeyboardMetadata>()
+			               ?? new KeyboardMetadata();
 
 
 			var currentKey = new Key();
 			var keyboard = new Keyboard
 			{
-				Metadata = metadata
+				Meta = metadata
 			};
 			var align = 4;
 			foreach (var row in rows)

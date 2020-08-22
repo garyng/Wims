@@ -39,7 +39,7 @@ namespace KleSharp.Tests
 			var result = _deserializer.Deserialize(@"[]");
 
 			// Assert
-			result.Metadata.Should().BeNull();
+			result.Meta.Should().BeNull();
 		}
 
 		[Test]
@@ -99,7 +99,7 @@ namespace KleSharp.Tests
 ");
 
 			// Assert
-			result.Metadata.Should().BeEquivalentTo(expected);
+			result.Meta.Should().BeEquivalentTo(expected);
 		}
 
 		[Test]
