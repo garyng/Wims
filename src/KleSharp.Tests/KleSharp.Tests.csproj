@@ -9,10 +9,12 @@
   <ItemGroup>
     <None Remove="Resources\Expected\ansi-104.json" />
     <None Remove="Resources\Expected\apple-wireless.json" />
+    <None Remove="Resources\Expected\ergo-dox.json" />
     <None Remove="Resources\Expected\iso-105.json" />
     <None Remove="Resources\Expected\programmers-keyboard.json" />
     <None Remove="Resources\Original\ansi-104.json" />
     <None Remove="Resources\Original\apple-wireless.json" />
+    <None Remove="Resources\Original\ergo-dox.json" />
     <None Remove="Resources\Original\iso-105.json" />
     <None Remove="Resources\Original\programmers-keyboard.json" />
   </ItemGroup>
@@ -20,10 +22,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Expected\ansi-104.json" />
     <EmbeddedResource Include="Resources\Expected\apple-wireless.json" />
+    <EmbeddedResource Include="Resources\Expected\ergo-dox.json" />
     <EmbeddedResource Include="Resources\Expected\iso-105.json" />
     <EmbeddedResource Include="Resources\Expected\programmers-keyboard.json" />
     <EmbeddedResource Include="Resources\Original\ansi-104.json" />
     <EmbeddedResource Include="Resources\Original\apple-wireless.json" />
+    <EmbeddedResource Include="Resources\Original\ergo-dox.json" />
     <EmbeddedResource Include="Resources\Original\iso-105.json" />
     <EmbeddedResource Include="Resources\Original\programmers-keyboard.json" />
   </ItemGroup>

@@ -761,10 +761,12 @@ namespace KleSharp.Tests
 		[TestCase("apple-wireless.json")]
 		[TestCase("iso-105.json")]
 		[TestCase("programmers-keyboard.json")]
+		[TestCase("ergo-dox.json")]
 		[Category("Samples")]
 		public void Should_DeserializeSamplesCorrectly(string filename)
 		{
 			// Arrange
+
 			var ns = typeof(ITestResourcesMarker).Namespace;
 			var input = ReadResource($"{ns}.Original.{filename}");
 			var expected = JsonConvert.DeserializeObject<Keyboard>(ReadResource($"{ns}.Expected.{filename}"));
