@@ -111,11 +111,11 @@ namespace KleSharp
 		/// <summary>
 		/// Specifies the key's profile
 		/// </summary>
-		public string Profile { get; set; }
+		public string Profile { get; set; } = "";
 
-		public string SwitchMount { get; set; }
-		public string SwitchBrand { get; set; }
-		public string SwitchType { get; set; }
+		public string SwitchMount { get; set; } = "";
+		public string SwitchBrand { get; set; } = "";
+		public string SwitchType { get; set; } = "";
 	}
 
 	public class RawKey
@@ -222,7 +222,7 @@ namespace KleSharp
 						// cleanup the data
 						for (int i = 0; i < 12; i++)
 						{
-							if (newKey.Labels[i] == null)
+							if (string.IsNullOrEmpty(newKey.Labels[i]))
 							{
 								newKey.TextSize[i] = null;
 								newKey.TextColor[i] = null;
@@ -274,20 +274,24 @@ namespace KleSharp
 
 						if (raw.f2 != null)
 						{
-							for (int i = 0; i < 12; i++)
+							for (int i = 1; i < 12; i++)
 							{
 								currentKey.TextSize[i] = raw.f2;
 							}
 						}
+
 						if (raw.fa != null) currentKey.TextSize = raw.fa;
 						if (!string.IsNullOrEmpty(raw.p)) currentKey.Profile = raw.p;
 						if (!string.IsNullOrEmpty(raw.c)) currentKey.Color = raw.c;
 						if (!string.IsNullOrEmpty(raw.t))
 						{
-							var colors = raw.t.Split('\n');
+							var colors = raw.t.Split('\n')
+								.Select(c => string.IsNullOrEmpty(c) ? null : c)
+								.ToList();
 							if (!string.IsNullOrEmpty(colors[0])) currentKey.Default.TextColor = colors[0];
 							currentKey.TextColor = ParseLabels(colors, align);
 						}
+
 						if (raw.x != null) currentKey.X += raw.x.Value;
 						if (raw.y != null) currentKey.Y += raw.y.Value;
 						if (raw.w != null)
@@ -298,9 +302,10 @@ namespace KleSharp
 
 						if (raw.h != null)
 						{
-							currentKey.Height = raw.h.Value; 
+							currentKey.Height = raw.h.Value;
 							currentKey.Height2 = raw.h.Value;
 						}
+
 						if (raw.x2 != null) currentKey.X2 = raw.x2.Value;
 						if (raw.y2 != null) currentKey.Y2 = raw.y2.Value;
 						if (raw.w2 != null) currentKey.Width2 = raw.w2.Value;
@@ -310,7 +315,7 @@ namespace KleSharp
 						currentKey.Decal = raw.d;
 						currentKey.Ghost = raw.g;
 						if (raw.sm != null) currentKey.SwitchMount = raw.sm;
-						if (raw.sb != null) currentKey.SwitchBrand= raw.sb;
+						if (raw.sb != null) currentKey.SwitchBrand = raw.sb;
 						if (raw.st != null) currentKey.SwitchType = raw.st;
 					}
 				}
@@ -344,8 +349,10 @@ namespace KleSharp
 			var ret = new T[12];
 			for (int i = 0; i < labels.Count(); i++)
 			{
+				var pos = map[align][i];
 				if (labels[i] == null) continue;
-				ret[map[align][i]] = labels[i];
+				if (pos == -1) continue;
+				ret[pos] = labels[i];
 			}
 
 			return ret;
