@@ -1,8 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using FluentAssertions;
+using KleSharp.Tests.Resources;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using MoreLinq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace KleSharp.Tests
@@ -750,6 +755,48 @@ namespace KleSharp.Tests
 			act2.Should().NotThrow();
 			act1().Should().BeEquivalentTo(act2());
 			act1().Should().BeEquivalentTo(act3());
+		}
+
+		[TestCase("ansi-104.json")]
+		[TestCase("apple-wireless.json")]
+		[TestCase("iso-105.json")]
+		[TestCase("programmers-keyboard.json")]
+		[Category("Samples")]
+		public void Should_DeserializeSamplesCorrectly(string filename)
+		{
+			// Arrange
+			var ns = typeof(ITestResourcesMarker).Namespace;
+			var input = ReadResource($"{ns}.Original.{filename}");
+			var expected = JsonConvert.DeserializeObject<Keyboard>(ReadResource($"{ns}.Expected.{filename}"));
+
+			foreach (var key in expected.Keys)
+			{
+				key.TextColor = PadNull(key.TextColor);
+				key.Labels = PadNull(key.Labels);
+				key.TextSize = PadNull(key.TextSize);
+			}
+
+			// Act
+			var result = _deserializer.Deserialize(input);
+
+
+			// Assert
+			result.Should().BeEquivalentTo(expected);
+		}
+
+		private string ReadResource(string resourceName)
+		{
+			var assembly = typeof(ITestResourcesMarker).Assembly;
+			using var reader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
+			return reader.ReadToEnd();
+		}
+
+		private T[] PadNull<T>(IList<T> source, int upTo = 12)
+		{
+			var items = new List<T>(source);
+			var diff = Enumerable.Repeat<T>(default, upTo - items.Count);
+			items.AddRange(diff);
+			return items.ToArray();
 		}
 	}
 }
