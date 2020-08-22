@@ -278,7 +278,13 @@ namespace KleSharp
 							}
 						}
 
-						if (raw.fa != null) currentKey.TextSize = raw.fa.Select(f => f == 0.0 ? null : f).ToArray();
+						if (raw.fa != null)
+						{
+							currentKey.TextSize = raw.fa
+								.Select(f => f == 0.0 ? null : f)
+								.Concat(Enumerable.Repeat<double?>(null, 12 - raw.fa.Length))
+								.ToArray();
+						}
 						if (!string.IsNullOrEmpty(raw.p)) currentKey.Profile = raw.p;
 						if (!string.IsNullOrEmpty(raw.c)) currentKey.Color = raw.c;
 						if (!string.IsNullOrEmpty(raw.t))
