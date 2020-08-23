@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
 using KleSharp.Tests.Resources;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using MoreLinq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -36,7 +33,7 @@ namespace KleSharp.Tests
 
 		[Test]
 		[Category("Metadata")]
-		public void Should_BeNull_IfNo_Metadata()
+		public void Should_BeDefault_IfNo_Metadata()
 		{
 			// Arrange
 
@@ -44,7 +41,7 @@ namespace KleSharp.Tests
 			var result = _deserializer.Deserialize(@"[]");
 
 			// Assert
-			result.Meta.Should().BeNull();
+			result.Meta.Should().BeEquivalentTo(new KeyboardMetadata());
 		}
 
 		[Test]
