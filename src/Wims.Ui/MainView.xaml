@@ -1,24 +1,26 @@
-﻿<Window x:Class="Wims.Ui.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Wims.Ui"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Wims"
-        Width="800"
-        Height="450"
-        MaxHeight="500"
-        AllowsTransparency="True"
-        FontFamily="{md:MaterialDesignFont}"
-        ShowInTaskbar="False"
-        SizeToContent="Height"
-        TextElement.FontSize="14"
-        TextElement.FontWeight="Medium"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Topmost="True"
-        WindowStyle="None"
-        mc:Ignorable="d">
+﻿<rx:ReactiveWindow x:Class="Wims.Ui.MainView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:local="clr-namespace:Wims.Ui"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   xmlns:rx="http://reactiveui.net"
+                   Title="Wims"
+                   Width="800"
+                   Height="450"
+                   MaxHeight="500"
+                   x:TypeArguments="local:MainViewModel"
+                   AllowsTransparency="True"
+                   FontFamily="{md:MaterialDesignFont}"
+                   ShowInTaskbar="False"
+                   SizeToContent="Height"
+                   TextElement.FontSize="14"
+                   TextElement.FontWeight="Medium"
+                   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                   Topmost="True"
+                   WindowStyle="None"
+                   mc:Ignorable="d">
 	<Window.Background>
 		<SolidColorBrush Opacity="0" />
 	</Window.Background>
@@ -61,7 +63,8 @@
 							             VerticalAlignment="Center"
 							             Kind="MicrosoftVisualStudio" />
 						</Button>
-						<TextBlock Grid.Column="1"
+						<TextBlock x:Name="Context"
+						           Grid.Column="1"
 						           VerticalAlignment="Center"
 						           Style="{StaticResource MaterialDesignCaptionTextBlock}"
 						           Text="asdasd"
@@ -82,7 +85,8 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<TextBox VerticalAlignment="Center"
+					<TextBox x:Name="SearchText"
+					         VerticalAlignment="Center"
 					         md:HintAssist.Hint="Search..."
 					         md:TextFieldAssist.DecorationVisibility="Hidden"
 					         BorderThickness="0"
@@ -136,4 +140,4 @@
 			</ListBox>
 		</md:ColorZone>
 	</Grid>
-</Window>
+</rx:ReactiveWindow>
