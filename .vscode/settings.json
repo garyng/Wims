@@ -1,0 +1,22 @@
+{
+    "todo.colors.dark": {
+        "comment": "#aaa",
+        "tag": "#75715e"
+    },
+    "todo.tags.names": [
+        "critical",
+        "??",
+        "high",
+        "!!",
+        "low",
+        "today"
+    ],
+    "todo.colors.tags.background": [
+        "#e54545",
+        "#e54545",
+        "#e59f45",
+        "#e59f45",
+        "#e5d145",
+        "#ae81ff"
+    ]
+}
