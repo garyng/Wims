@@ -7,9 +7,19 @@
         Title="MainWindow"
         Width="800"
         Height="450"
-        Loaded="MainWindow_OnLoaded"
+        AllowsTransparency="True"
+        WindowStyle="None"
         mc:Ignorable="d">
+
+	<Window.Background>
+		<SolidColorBrush Opacity="0" />
+	</Window.Background>
 	<StackPanel>
+		<Button Margin="20" Content="100" />
+		<Button Margin="20" Content="200" />
+	</StackPanel>
+
+	<!--<StackPanel>
 		<Grid x:Name="Grid">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*" />
@@ -62,5 +72,28 @@
 				</Button.RenderTransform>
 			</Button>
 		</Grid>
-	</StackPanel>
+	</StackPanel>-->
+	<!--<Viewbox Stretch="UniformToFill">
+		<Canvas Width="100"
+		        Height="100"
+		        Background="Red">
+			<Button Content="5">
+				<Button.RenderTransform>
+					<TransformGroup>
+						<RotateTransform Angle="15" />
+					</TransformGroup>
+				</Button.RenderTransform>
+			</Button>
+			<Button Content="10">
+				<Button.RenderTransform>
+					<TransformGroup>
+						<TranslateTransform X="10" />
+						<RotateTransform Angle="15" />
+					</TransformGroup>
+				</Button.RenderTransform>
+			</Button>
+		</Canvas>
+	</Viewbox>-->
+
+
 </Window>

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Wims.Wpf.Poc
+namespace Wims.Ui
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -23,6 +23,14 @@ namespace Wims.Wpf.Poc
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void OnDrag(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				DragMove();
+			}
 		}
 	}
 }
