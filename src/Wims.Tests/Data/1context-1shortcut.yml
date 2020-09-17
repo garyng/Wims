@@ -1,0 +1,11 @@
+contexts:
+  "vscode":
+    icon: vscode.png
+    match:
+      exe: code.exe
+
+shortcuts:
+  "Show Command Palette":
+    context: vscode
+    bindings:
+      - Ctrl + Shift + P

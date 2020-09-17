@@ -1,0 +1,21 @@
+contexts:
+  "vscode":
+    icon: vscode.png
+    match:
+      exe: code.exe
+  "vs":
+    icon: vs.png
+    match:
+      exe: devenv.exe
+
+shortcuts:
+  "Show Command Palette":
+    context: vscode
+    bindings:
+      - Ctrl + Shift + P
+  
+  "Reformat Code":
+    context: vs
+    bindings:
+      - Ctrl + K
+      - Ctrl + F
