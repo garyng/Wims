@@ -27,9 +27,12 @@ namespace Wims.Ui
 			InitializeComponent();
 			this.WhenActivated(d =>
 			{
-				this.Bind(ViewModel, vm => vm.SearchText, v => v.SearchText.Text)
+				this.Bind(ViewModel, vm => vm.TextQuery, v => v.TextQuery.Text)
 					.DisposeWith(d);
 				this.OneWayBind(ViewModel, vm => vm.Context, v => v.Context.Text)
+					.DisposeWith(d);
+
+				this.OneWayBind(ViewModel, vm => vm.Results, v => v.Results.ItemsSource)
 					.DisposeWith(d);
 			});
 		}

@@ -85,7 +85,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<TextBox x:Name="SearchText"
+					<TextBox x:Name="TextQuery"
 					         VerticalAlignment="Center"
 					         md:HintAssist.Hint="Search..."
 					         md:TextFieldAssist.DecorationVisibility="Hidden"
@@ -121,22 +121,12 @@
 		              CornerRadius="8"
 		              Mode="Dark"
 		              MouseDown="OnDrag">
-			<ListBox>
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
-				<ListBoxItem Content="asdasd" />
+			<ListBox x:Name="Results">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}" />
+					</DataTemplate>
+				</ListBox.ItemTemplate>
 			</ListBox>
 		</md:ColorZone>
 	</Grid>

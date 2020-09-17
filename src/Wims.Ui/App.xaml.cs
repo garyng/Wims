@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using Wims.Core.Models;
 
 namespace Wims.Ui
 {
@@ -18,14 +21,21 @@ namespace Wims.Ui
 	public partial class App : Application
 	{
 		private IHost _host;
+		private Bootstrapper _bootstrapper;
 
 		public App()
 		{
-			var bootstrapper = new Bootstrapper();
+			_bootstrapper = new Bootstrapper();
 			_host = Host.CreateDefaultBuilder()
+				.ConfigureAppConfiguration((context, config) => { config.AddYamlFile("wims.yml", true, false); })
 				.ConfigureServices((context, services) =>
 				{
-					bootstrapper.ConfigureServices(context.HostingEnvironment, context.Configuration, services);
+					// todo: probably do this on each load
+					var config = context.Configuration.Get<WimsConfig>();
+					PreprocessConfig(config);
+
+					
+					_bootstrapper.ConfigureServices(context.HostingEnvironment, context.Configuration, services);
 				})
 				.Build();
 
@@ -33,9 +43,18 @@ namespace Wims.Ui
 			_host.Services.UseMicrosoftDependencyResolver();
 		}
 
-		protected override void OnStartup(StartupEventArgs e)
+		private void PreprocessConfig(WimsConfig config)
 		{
-			_host.StartAsync();
+			config.Directory = string.IsNullOrEmpty(config.Directory)
+				? Directory.GetCurrentDirectory()
+				: Path.GetFullPath(config.Directory);
+		}
+
+		protected override async void OnStartup(StartupEventArgs e)
+		{
+			await _host.StartAsync();
+			await _bootstrapper.Startup(_host.Services);
+
 			var mainView = new MainView
 			{
 				ViewModel = _host.Services.GetRequiredService<MainViewModel>()
