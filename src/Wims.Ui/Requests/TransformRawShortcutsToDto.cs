@@ -6,9 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Wims.Core.Dto;
 using Wims.Core.Exceptions;
-using Wims.Core.Models.Dto;
-using Wims.Core.Models.Raw;
+using Wims.Core.Models;
 
 namespace Wims.Ui.Requests
 {

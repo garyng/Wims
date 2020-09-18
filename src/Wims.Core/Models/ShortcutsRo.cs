@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace Wims.Core.Models.Raw
+namespace Wims.Core.Models
 {
 	/// <summary>
 	/// Represent a single config file that stores both

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Wims.Core.Models.Dto;
-using Wims.Core.Models.Raw;
+using Wims.Core.Dto;
+using Wims.Core.Models;
 
 namespace Wims.Ui.Profiles
 {

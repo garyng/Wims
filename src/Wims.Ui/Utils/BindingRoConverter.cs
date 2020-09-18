@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Wims.Core.Models.Raw;
+using Wims.Core.Models;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
