@@ -36,6 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.Void\GaryNg.Utils.Void.csproj" />
+    <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.Wpf\GaryNg.Utils.Wpf.csproj" />
     <ProjectReference Include="..\Wims.Core\Wims.Core.csproj" />
   </ItemGroup>
 
