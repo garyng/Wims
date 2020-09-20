@@ -30,11 +30,11 @@ namespace Wims.Ui
 				.ConfigureAppConfiguration((context, config) => { config.AddYamlFile("wims.yml", true, false); })
 				.ConfigureServices((context, services) =>
 				{
-					// todo: probably do this on each load
 					var config = context.Configuration.Get<WimsConfig>();
 					PreprocessConfig(config);
 
-					
+					services.AddSingleton(config);
+
 					_bootstrapper.ConfigureServices(context.HostingEnvironment, context.Configuration, services);
 				})
 				.Build();

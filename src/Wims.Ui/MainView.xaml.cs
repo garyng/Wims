@@ -34,6 +34,8 @@ namespace Wims.Ui
 
 				this.OneWayBind(ViewModel, vm => vm.Results, v => v.Results.ItemsSource)
 					.DisposeWith(d);
+
+				this.ViewModel.LoadShortcuts.Execute().Subscribe();
 			});
 		}
 

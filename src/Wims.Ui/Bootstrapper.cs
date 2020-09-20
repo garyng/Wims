@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -25,6 +26,7 @@ namespace Wims.Ui
 
 			services.AddSingleton<ISchedulers, Schedulers>();
 			services.AddSingleton<MainViewModel>();
+			services.AddSingleton<IFileSystem>(new FileSystem());
 
 
 		}
