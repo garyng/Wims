@@ -13,6 +13,7 @@ using ReactiveUI.Fody.Helpers;
 using Wims.Core.Dto;
 using Wims.Core.Models;
 using Wims.Ui.Requests;
+using Void = GaryNg.Utils.Void.Void;
 
 namespace Wims.Ui
 {

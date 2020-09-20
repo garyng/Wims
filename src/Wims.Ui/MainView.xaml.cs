@@ -35,6 +35,9 @@ namespace Wims.Ui
 				this.OneWayBind(ViewModel, vm => vm.Results, v => v.Results.ItemsSource)
 					.DisposeWith(d);
 
+				this.OneWayBind(ViewModel, vm => vm.Results, v => v.ResultsContainer.Collection)
+					.DisposeWith(d);
+
 				this.ViewModel.LoadShortcuts.Execute().Subscribe();
 			});
 		}

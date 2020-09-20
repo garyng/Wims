@@ -6,6 +6,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                    xmlns:rx="http://reactiveui.net"
+                   xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
                    Title="Wims"
                    Width="800"
                    Height="450"
@@ -113,21 +114,25 @@
 				</Grid>
 			</Grid>
 		</md:ColorZone>
-		<md:ColorZone Grid.Row="1"
-		              Margin="16,8,16,16"
-		              Padding="16"
-		              md:ShadowAssist.ShadowDepth="Depth5"
-		              md:ShadowAssist.ShadowEdges="All"
-		              CornerRadius="8"
-		              Mode="Dark"
-		              MouseDown="OnDrag">
-			<ListBox x:Name="Results">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding}" />
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</md:ColorZone>
+		<utils:CollectionContainer x:Name="ResultsContainer"
+		                           Grid.Row="1"
+		                           IsEmpty="False">
+			<md:ColorZone Margin="16,8,16,16"
+			              Padding="16"
+			              md:ShadowAssist.ShadowDepth="Depth5"
+			              md:ShadowAssist.ShadowEdges="All"
+			              CornerRadius="8"
+			              Mode="Dark"
+			              MouseDown="OnDrag">
+				<ListBox x:Name="Results">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" />
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</md:ColorZone>
+
+		</utils:CollectionContainer>
 	</Grid>
 </rx:ReactiveWindow>
