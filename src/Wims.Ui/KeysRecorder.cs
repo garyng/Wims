@@ -960,6 +960,9 @@ namespace Wims.Ui
 			var str = result.ToString();
 			return string.IsNullOrEmpty(str) ? @this.ToString() : str;
 		}
+
+		public static KeyEventDto Up(this Key @this) => KeyEventDto.Up(@this);
+		public static KeyEventDto Down(this Key @this) => KeyEventDto.Down(@this);
 	}
 
 	public enum KeyEventTypes
@@ -980,9 +983,17 @@ namespace Wims.Ui
 			Key = GetRealKey(args);
 		}
 
+		private KeyEventDto(KeyEventTypes type, Key key)
+		{
+			_type = type;
+			Key = key;
+		}
+
 		public static KeyEventDto Down(KeyEventArgs args) => new KeyEventDto(KeyEventTypes.Down, args, true);
 		public static KeyEventDto Up(KeyEventArgs args) => new KeyEventDto(KeyEventTypes.Up, args, true);
 
+		public static KeyEventDto Down(Key key) => new KeyEventDto(KeyEventTypes.Down, key);
+		public static KeyEventDto Up(Key key) => new KeyEventDto(KeyEventTypes.Up, key);
 
 		public bool IsUp(out Key up)
 		{
@@ -1011,8 +1022,6 @@ namespace Wims.Ui
 
 	public class KeyCombination
 	{
-		// todo: unit tests
-
 		/// <summary>
 		/// Hold all the keys inside current combination
 		/// </summary>
@@ -1027,6 +1036,45 @@ namespace Wims.Ui
 		{
 			_stack = new HashSet<Key>();
 			_combinations = new List<HashSet<Key>>();
+		}
+
+
+		/// <summary>
+		/// Handle <see cref="KeyEventDto"/>s to <see cref="KeyCombination"/>
+		/// </summary>
+		public KeyCombination Handle(KeyEventDto e, Key removalKey = Key.Back)
+		{
+			if (e.IsDown(out var down))
+			{
+				if (e.Key == removalKey)
+				{
+					Pop();
+				}
+				else
+				{
+					Add(down);
+				}
+
+				return this;
+			}
+
+			if (e.IsUp(out var up))
+			{
+				TryEnd(up);
+				return this;
+			}
+
+			return this;
+		}
+
+		public KeyCombination Handle(Key removalKey = Key.Back, params KeyEventDto[] events)
+		{
+			foreach (var e in events)
+			{
+				Handle(e, removalKey);
+			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -1113,7 +1161,7 @@ namespace Wims.Ui
 					{
 						_combinations.RemoveLast();
 					}
-
+					_combinations.Add(new HashSet<Key>());
 					break;
 			}
 		}
@@ -1168,30 +1216,7 @@ namespace Wims.Ui
 				.Subscribe(_ => { combination.End(); })
 				.DisposeWith(_disposables);
 
-			keys.Scan(combination, (c, e) =>
-				{
-					if (e.IsDown(out var down))
-					{
-						if (e.Key == RemovalKey)
-						{
-							c.Pop();
-						}
-						else
-						{
-							c.Add(down);
-						}
-
-						return c;
-					}
-
-					if (e.IsUp(out var up))
-					{
-						c.TryEnd(up);
-						return c;
-					}
-
-					return c;
-				})
+			keys.Scan(combination, (c, e) => c.Handle(e, RemovalKey))
 				.ObserveOnDispatcher()
 				.Subscribe(c =>
 				{
