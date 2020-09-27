@@ -28,6 +28,7 @@
     <PackageReference Include="ReactiveUI.Events.WPF" Version="11.5.35" />
     <PackageReference Include="ReactiveUI.Fody" Version="11.5.35" />
     <PackageReference Include="ReactiveUI.WPF" Version="11.5.35" />
+    <PackageReference Include="Scrutor" Version="3.2.2" />
     <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="9.5.35" />
     <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
     <PackageReference Include="System.IO.Abstractions" Version="12.1.1" />

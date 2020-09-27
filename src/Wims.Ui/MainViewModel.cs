@@ -36,9 +36,21 @@ namespace Wims.Ui
 		}
 	}
 
+	public class CaptureKeysViewModel : ViewModelBase
+	{
+		[Reactive] public string Keys { get; set; }
+
+		public CaptureKeysViewModel(ISchedulers schedulers, IMediator mediator) : base(schedulers, mediator)
+		{
+			Keys = "asd";
+		}
+	}
+
 	public class MainViewModel : ViewModelBase
 	{
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
+
+		public CaptureKeysViewModel CaptureKeysViewModel { get; set; }
 
 
 		[Reactive] public string TextQuery { get; set; }
@@ -54,8 +66,9 @@ namespace Wims.Ui
 		}
 
 
-		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config) : base(schedulers, mediator)
+		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config, CaptureKeysViewModel captureKeysViewModel) : base(schedulers, mediator)
 		{
+			CaptureKeysViewModel = captureKeysViewModel;
 			LoadShortcuts = ReactiveCommand.CreateFromObservable<Void, ShortcutsDto>(_ => _mediator
 				.Send(new LoadRawShortcutsFromFiles
 				{

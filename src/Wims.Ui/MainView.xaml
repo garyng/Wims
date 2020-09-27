@@ -29,6 +29,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<md:ColorZone Margin="16,16,16,8"
 		              md:ShadowAssist.ShadowDepth="Depth5"
@@ -134,5 +135,6 @@
 			</md:ColorZone>
 
 		</utils:CollectionContainer>
+		<rx:ViewModelViewHost x:Name="KeysQueryHost" Grid.Row="2" />
 	</Grid>
 </rx:ReactiveWindow>
