@@ -33,13 +33,20 @@
     <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
     <PackageReference Include="System.IO.Abstractions" Version="12.1.1" />
     <PackageReference Include="System.Linq.Async" Version="4.1.1" />
+    <PackageReference Include="Vanara.PInvoke.User32" Version="3.2.17" />
     <PackageReference Include="YamlDotNet" Version="8.1.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.Enumerable\GaryNg.Utils.Enumerable.csproj" />
+    <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.List\GaryNg.Utils.List.csproj" />
     <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.Void\GaryNg.Utils.Void.csproj" />
     <ProjectReference Include="..\..\libs\GaryNg.Utils\src\GaryNg.Utils.Wpf\GaryNg.Utils.Wpf.csproj" />
     <ProjectReference Include="..\Wims.Core\Wims.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>

@@ -29,12 +29,12 @@ namespace Wims.Ui
 			services.AddSingleton<IFileSystem>(new FileSystem());
 
 
-			services.Scan(scan => scan
-				.FromAssemblyOf<ViewModelBase>()
-				.AddClasses(classes => classes.AssignableTo<ViewModelBase>())
-				.AsSelf()
-				.WithSingletonLifetime()
-			);
+			//services.Scan(scan => scan
+			//	.FromAssemblyOf<ViewModelBase>()
+			//	.AddClasses(classes => classes.AssignableTo<ViewModelBase>())
+			//	.AsSelf()
+			//	.WithSingletonLifetime()
+			//);
 		}
 
 		private IMutableDependencyResolver ConfigureSplat(IServiceCollection services)

@@ -29,6 +29,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<md:ColorZone Margin="16,16,16,8"
 		              md:ShadowAssist.ShadowDepth="Depth5"
@@ -134,5 +135,18 @@
 			</md:ColorZone>
 
 		</utils:CollectionContainer>
+		<local:KeysRecorder x:Name="Recorder"
+		                    Grid.Row="2"
+		                    md:HintAssist.Hint="Recording keys..."
+		                    md:TextFieldAssist.DecorationVisibility="Hidden"
+		                    BorderThickness="0"
+		                    FontSize="24"
+		                    FontWeight="Light">
+
+			<!--  todo: move to styles file  -->
+			<local:KeysRecorder.Style>
+				<Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type local:KeysRecorder}" />
+			</local:KeysRecorder.Style>
+		</local:KeysRecorder>
 	</Grid>
 </rx:ReactiveWindow>
