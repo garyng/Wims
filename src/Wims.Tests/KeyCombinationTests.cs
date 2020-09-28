@@ -3,6 +3,7 @@ using System.Windows.Input;
 using FluentAssertions;
 using NUnit.Framework;
 using Wims.Ui;
+using Wims.Ui.Controls;
 
 namespace Wims.Tests
 {

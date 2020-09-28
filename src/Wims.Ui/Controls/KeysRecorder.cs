@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -12,7 +11,7 @@ using GaryNg.Utils.Enumerable;
 using GaryNg.Utils.List;
 using Vanara.PInvoke;
 
-namespace Wims.Ui
+namespace Wims.Ui.Controls
 {
 	[Flags]
 	public enum KF : int
@@ -1174,7 +1173,6 @@ namespace Wims.Ui
 			);
 		}
 	}
-
 
 	public class KeysRecorder : TextBox
 	{

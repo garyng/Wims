@@ -45,8 +45,4 @@
     <ProjectReference Include="..\Wims.Core\Wims.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
-
 </Project>
