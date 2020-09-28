@@ -1,6 +1,7 @@
 ﻿<rx:ReactiveWindow x:Class="Wims.Ui.MainView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:controls="clr-namespace:Wims.Ui.Controls"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -88,16 +89,25 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<TextBox x:Name="TextQuery"
+					         Grid.Column="0"
 					         VerticalAlignment="Center"
 					         md:HintAssist.Hint="Search..."
 					         md:TextFieldAssist.DecorationVisibility="Hidden"
 					         BorderThickness="0"
 					         FontSize="24"
 					         FontWeight="Light" />
+					<controls:KeysRecorder x:Name="KeysQuery"
+					                       Grid.Column="0"
+					                       md:HintAssist.Hint="Recording keys..."
+					                       md:TextFieldAssist.DecorationVisibility="Hidden"
+					                       BorderThickness="0"
+					                       FontSize="24"
+					                       FontWeight="Light" />
+
 					<StackPanel Grid.Column="1"
 					            VerticalAlignment="Center"
 					            Orientation="Horizontal">
-						<ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}">
+						<ToggleButton x:Name="IsKeyModeToggle" Style="{StaticResource MaterialDesignActionAccentToggleButton}">
 							<ToggleButton.Content>
 								<md:PackIcon Width="16"
 								             Height="16"
@@ -135,18 +145,5 @@
 			</md:ColorZone>
 
 		</utils:CollectionContainer>
-		<local:KeysRecorder x:Name="Recorder"
-		                    Grid.Row="2"
-		                    md:HintAssist.Hint="Recording keys..."
-		                    md:TextFieldAssist.DecorationVisibility="Hidden"
-		                    BorderThickness="0"
-		                    FontSize="24"
-		                    FontWeight="Light">
-
-			<!--  todo: move to styles file  -->
-			<local:KeysRecorder.Style>
-				<Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type local:KeysRecorder}" />
-			</local:KeysRecorder.Style>
-		</local:KeysRecorder>
 	</Grid>
 </rx:ReactiveWindow>

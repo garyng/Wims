@@ -36,14 +36,24 @@ namespace Wims.Ui
 		}
 	}
 
+	public enum QueryModes
+	{
+		Text, 
+		Keys
+	}
+
 	public class MainViewModel : ViewModelBase
 	{
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
+		
+		[Reactive] public QueryModes QueryMode { get; set; }
 
+		[ObservableAsProperty] public bool IsTextQuery { get; set; }
+		[ObservableAsProperty] public bool IsKeysQuery { get; set; }
 
 		[Reactive] public string TextQuery { get; set; }
 		[Reactive] public string KeysQuery { get; set; }
-		[ObservableAsProperty] public string Context { get; set; }
+
 
 		private ReadOnlyObservableCollection<string> _results;
 
@@ -66,6 +76,19 @@ namespace Wims.Ui
 				{
 					Shortcuts = shortcuts
 				})));
+
+			this.WhenAnyValue(vm => vm.QueryMode)
+				.Select(q => q == QueryModes.Text)
+				.ToPropertyEx(this, vm => vm.IsTextQuery);
+
+			this.WhenAnyValue(vm => vm.QueryMode)
+				.Select(q => q == QueryModes.Keys)
+				.ToPropertyEx(this, vm => vm.IsKeysQuery);
+
+
+			// todo: map to IsTextQuery/IsKeysQuery
+			// todo: show/hide KeysRecorder
+
 
 			var results = new SourceList<string>();
 
