@@ -5,6 +5,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 	<Application.Resources>
 		<ResourceDictionary>
+			<Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="{x:Type ScrollBar}">
+				<Setter Property="materialDesign:ScrollBarAssist.ThumbCornerRadius" Value="4" />
+				<Setter Property="materialDesign:ScrollBarAssist.ThumbWidth" Value="8" />
+			</Style>
 			<ResourceDictionary.MergedDictionaries>
 				<materialDesign:CustomColorTheme BaseTheme="Dark"
 				                                 PrimaryColor="#fafafa"
