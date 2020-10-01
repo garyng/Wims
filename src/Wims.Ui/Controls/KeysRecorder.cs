@@ -1160,6 +1160,7 @@ namespace Wims.Ui.Controls
 					{
 						_combinations.RemoveLast();
 					}
+
 					_combinations.Add(new HashSet<Key>());
 					break;
 			}
@@ -1172,17 +1173,35 @@ namespace Wims.Ui.Controls
 					c.Select(k => k.GetName())))
 			);
 		}
+
+		public List<List<string>> ToStrings()
+		{
+			return _combinations
+				.Where(c => c.Any())
+				.Select(c =>
+					c.Select(k => k.GetName()).ToList())
+				.ToList();
+		}
 	}
 
 	public class KeysRecorder : TextBox
 	{
-		public static readonly DependencyProperty RemovalKeyProperty = DependencyProperty.Register(
-			"RemovalKey", typeof(Key), typeof(KeysRecorder), new PropertyMetadata(Key.Back));
+		public static readonly DependencyProperty BackspaceKeyProperty = DependencyProperty.Register(
+			"BackspaceKey", typeof(Key), typeof(KeysRecorder), new PropertyMetadata(Key.Back));
 
-		public Key RemovalKey
+		public Key BackspaceKey
 		{
-			get { return (Key) GetValue(RemovalKeyProperty); }
-			set { SetValue(RemovalKeyProperty, value); }
+			get { return (Key) GetValue(BackspaceKeyProperty); }
+			set { SetValue(BackspaceKeyProperty, value); }
+		}
+
+		public static readonly DependencyProperty KeysProperty = DependencyProperty.Register(
+			"Keys", typeof(List<List<string>>), typeof(KeysRecorder), new PropertyMetadata(default(List<List<string>>)));
+
+		public List<List<string>> Keys
+		{
+			get { return (List<List<string>>) GetValue(KeysProperty); }
+			set { SetValue(KeysProperty, value); }
 		}
 
 		private CompositeDisposable _disposables;
@@ -1197,7 +1216,7 @@ namespace Wims.Ui.Controls
 
 			var down = this.Events()
 				.PreviewKeyDown
-				.Where(e => !e.IsRepeat || e.Key == RemovalKey)
+				.Where(e => !e.IsRepeat || e.Key == BackspaceKey)
 				.Select(KeyEventDto.Down);
 
 			var up = this.Events()
@@ -1214,11 +1233,12 @@ namespace Wims.Ui.Controls
 				.Subscribe(_ => { combination.End(); })
 				.DisposeWith(_disposables);
 
-			keys.Scan(combination, (c, e) => c.Handle(e, RemovalKey))
+			keys.Scan(combination, (c, e) => c.Handle(e, BackspaceKey))
 				.ObserveOnDispatcher()
 				.Subscribe(c =>
 				{
 					Text = c.ToString();
+					Keys = c.ToStrings();
 					CaretIndex = Text.Length;
 				})
 				.DisposeWith(_disposables);
