@@ -149,7 +149,7 @@
 
 								<StackPanel Grid.Column="1">
 									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
-									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Sequence, Converter={utils1:BindingDtoToStringConverter}}" />
+									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
 								</StackPanel>
 							</Grid>
 

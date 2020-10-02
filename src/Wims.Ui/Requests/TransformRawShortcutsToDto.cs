@@ -78,7 +78,7 @@ namespace Wims.Ui.Requests
 					{
 						Description = desc,
 						Context = contexts[shortcut.Context],
-						Sequence = _mapper.Map<List<BindingDto>>(shortcut.Sequence)
+						Sequence = _mapper.Map<SequenceDto>(shortcut.Sequence)
 					};
 				}).ToList();
 

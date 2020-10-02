@@ -24,7 +24,7 @@ namespace Wims.Ui
 					.DisposeWith(d);
 
 				this.WhenAnyValue(v => v.KeysQuery.Keys)
-					.Select(keys => keys.ToBindingDto())
+					.Select(keys => keys.ToSequenceDto())
 					.BindTo(this, v => v.ViewModel.KeysQuery)
 					.DisposeWith(d);
 

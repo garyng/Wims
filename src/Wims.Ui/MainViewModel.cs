@@ -25,7 +25,7 @@ namespace Wims.Ui
 		[ObservableAsProperty] public bool IsKeysQuery { get; set; }
 
 		[Reactive] public string TextQuery { get; set; }
-		[Reactive] public List<BindingDto> KeysQuery { get; set; }
+		[Reactive] public SequenceDto KeysQuery { get; set; }
 
 		private ReadOnlyObservableCollection<ShortcutDto> _results;
 

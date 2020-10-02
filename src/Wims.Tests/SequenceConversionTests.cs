@@ -35,41 +35,40 @@ namespace Wims.Tests
 			b.Should().Be(expected);
 		}
 
-		// todo: rename to Sequence
 		[TestCaseSource(nameof(MultipleBindings))]
-		public void Should_Convert_StringsToMultipleBindings(string bindings, List<BindingDto> expected)
+		public void Should_Convert_StringsToMultipleBindings(string bindings, SequenceDto expected)
 		{
 			// Arrange
 
 
 			// Act
-			var b = bindings.ToBindingDto();
+			var b = bindings.ToSequenceDto();
 
 			// Assert
 			b.Should().BeEquivalentTo(expected);
 		}
 
 		[TestCaseSource(nameof(MultipleBindings))]
-		public void Should_Convert_MultipleBindingsToString(string expected, List<BindingDto> bindings)
+		public void Should_Convert_MultipleBindingsToString(string expected, SequenceDto bindings)
 		{
 			// Arrange
 
 
 			// Act
-			var b = bindings.AsString();
+			var b = bindings.ToString();
 
 			// Assert
 			b.Should().Be(expected);
 		}
 
 		[TestCaseSource(nameof(ListOfKeys))]
-		public void Should_Convert_ListOfListOfKeys(List<List<string>> keys, List<BindingDto> expected)
+		public void Should_Convert_ListOfListOfKeys(List<List<string>> keys, SequenceDto expected)
 		{
 			// Arrange
 
 
 			// Act
-			var b = keys.ToBindingDto();
+			var b = keys.ToSequenceDto();
 
 			// Assert
 			b.Should().BeEquivalentTo(expected);
@@ -116,13 +115,13 @@ namespace Wims.Tests
 			//yield return new object[]
 			//{
 			//	", , , ",
-			//	new List<BindingDto>()
+			//	new SequenceDto()
 			//};
 
 			yield return new object[]
 			{
 				"A, B",
-				new List<BindingDto>
+				new SequenceDto
 				{
 					new BindingDto
 					{
@@ -144,7 +143,7 @@ namespace Wims.Tests
 			yield return new object[]
 			{
 				"A, B, C",
-				new List<BindingDto>
+				new SequenceDto
 				{
 					new BindingDto
 					{
@@ -173,7 +172,7 @@ namespace Wims.Tests
 			yield return new object[]
 			{
 				"Ctrl + A, Ctrl + B",
-				new List<BindingDto>
+				new SequenceDto
 				{
 					new BindingDto
 					{
@@ -202,7 +201,7 @@ namespace Wims.Tests
 				new List<List<string>>
 				{
 				},
-				new List<BindingDto>
+				new SequenceDto
 				{
 				}
 			};
@@ -213,7 +212,7 @@ namespace Wims.Tests
 					new List<string> {"Ctrl", "A"},
 					new List<string> {"Ctrl", "B"},
 				},
-				new List<BindingDto>
+				new SequenceDto
 				{
 					new BindingDto
 					{
@@ -239,7 +238,7 @@ namespace Wims.Tests
 				{
 					new List<string> {"Ctrl", "A"},
 				},
-				new List<BindingDto>
+				new SequenceDto
 				{
 					new BindingDto
 					{

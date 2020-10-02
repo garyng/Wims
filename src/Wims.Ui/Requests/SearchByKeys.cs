@@ -11,7 +11,7 @@ namespace Wims.Ui.Requests
 	public class SearchByKeys : IRequest<IList<ShortcutDto>>
 	{
 		public IList<ShortcutDto> Shortcuts { get; set; }
-		public List<BindingDto> Query { get; set; }
+		public SequenceDto Query { get; set; }
 	}
 
 	public class SearchByKeysRequestHandler : IRequestHandler<SearchByKeys, IList<ShortcutDto>>
@@ -23,7 +23,7 @@ namespace Wims.Ui.Requests
 			return FuzzySharp.Process.ExtractTop(new ShortcutDto
 				{
 					Sequence = request.Query
-				}, request.Shortcuts, s => s.Sequence.AsString(), limit: 10, cutoff: 60)
+				}, request.Shortcuts, s => s.Sequence.ToString(), limit: 10, cutoff: 60)
 				.Select(r => r.Value)
 				.ToList();
 		}

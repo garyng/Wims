@@ -11,6 +11,8 @@ namespace Wims.Core.Dto
 			return string.Join(" + ", Keys);
 		}
 
+		
+		// todo: make this implicit conversion
 		public static BindingDto FromString(string keys)
 		{
 			return new BindingDto

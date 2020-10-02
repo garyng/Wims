@@ -7,10 +7,10 @@ using Wims.Core.Dto;
 
 namespace Wims.Ui.Utils
 {
-	public class BindingDtoToStringConverter : MarkupExtension, IValueConverter
+	public class SequenceDtoToStringConverter : MarkupExtension, IValueConverter
 	{
-		private static Lazy<BindingDtoToStringConverter> _instance =
-			new Lazy<BindingDtoToStringConverter>(() => new BindingDtoToStringConverter());
+		private static Lazy<SequenceDtoToStringConverter> _instance =
+			new Lazy<SequenceDtoToStringConverter>(() => new SequenceDtoToStringConverter());
 
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
@@ -19,9 +19,9 @@ namespace Wims.Ui.Utils
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is IEnumerable<BindingDto> binding)
+			if (value is IEnumerable<BindingDto> sequence)
 			{
-				return binding.AsString();
+				return sequence.ToString();
 			}
 
 			return value;
@@ -29,9 +29,9 @@ namespace Wims.Ui.Utils
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is string binding)
+			if (value is string sequence)
 			{
-				return binding.ToBindingDto();
+				return sequence.ToSequenceDto();
 			}
 
 			return value;
