@@ -11,11 +11,11 @@ contexts:
 shortcuts:
   "Show Command Palette":
     context: vscode
-    bindings:
+    sequence:
       - Ctrl + Shift + P
   
   "Reformat Code":
     context: vs
-    bindings:
+    sequence:
       - Ctrl + K
       - Ctrl + F

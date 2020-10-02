@@ -6,7 +6,6 @@ namespace Wims.Core.Dto
 	{
 		public ContextDto Context { get; set; }
 		public string Description { get; set; }
-		// todo: change this to Sequence
-		public List<BindingDto> Bindings { get; set; }
+		public List<BindingDto> Sequence { get; set; }
 	}
 }

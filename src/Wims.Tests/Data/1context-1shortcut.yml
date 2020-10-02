@@ -7,5 +7,5 @@ contexts:
 shortcuts:
   "Show Command Palette":
     context: vscode
-    bindings:
+    sequence:
       - Ctrl + Shift + P

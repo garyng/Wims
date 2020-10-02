@@ -11,6 +11,6 @@ namespace Wims.Core.Models
 		/// The name of the context, corresponds to <see cref="Context"/>
 		/// </summary>
 		public string Context { get; set; }
-		public List<BindingRo> Bindings { get; set; }
+		public List<BindingRo> Sequence { get; set; }
 	}
 }
