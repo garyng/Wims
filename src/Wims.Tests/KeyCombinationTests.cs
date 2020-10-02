@@ -20,8 +20,8 @@ namespace Wims.Tests
 			_kc = new KeyCombination();
 		}
 
-		[TestCaseSource(nameof(OneBinding))]
-		public void Should_Handle_OneKeyBinding(KeyEventDto[] events, string expected)
+		[TestCaseSource(nameof(OneChord))]
+		public void Should_Handle_OneChord(KeyEventDto[] events, string expected)
 		{
 			// Act
 			_kc.Handle(_removal, events);
@@ -30,8 +30,8 @@ namespace Wims.Tests
 			_kc.ToString().Should().Be(expected);
 		}
 
-		[TestCaseSource(nameof(MultipleKeyBindings))]
-		public void Should_Handle_MultipleKeyBinding(KeyEventDto[] events, string expected)
+		[TestCaseSource(nameof(SequenceOfChords))]
+		public void Should_Handle_Sequence(KeyEventDto[] events, string expected)
 		{
 			// Act
 			_kc.Handle(_removal, events);
@@ -77,7 +77,7 @@ namespace Wims.Tests
 		}
 
 
-		static IEnumerable<object> OneBinding()
+		static IEnumerable<object> OneChord()
 		{
 			yield return new object[]
 			{
@@ -139,7 +139,7 @@ namespace Wims.Tests
 		}
 
 
-		static IEnumerable<object> MultipleKeyBindings()
+		static IEnumerable<object> SequenceOfChords()
 		{
 			yield return new object[]
 			{

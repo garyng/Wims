@@ -6,56 +6,56 @@ using Wims.Core.Dto;
 
 namespace Wims.Tests
 {
-	public class BindingsDtoAndStringConversionTests
+	public class ChordDtoAndStringConversionTests
 	{
-		[TestCaseSource(nameof(OneBinding))]
-		public void Should_Convert_StringToBinding(string binding, BindingDto expected)
+		[TestCaseSource(nameof(OneChord))]
+		public void Should_Convert_StringToChord(string chord, ChordDto expected)
 		{
 			// Arrange
 
 
 			// Act
-			var b = BindingDto.FromString(binding);
+			var b = ChordDto.FromString(chord);
 
 
 			// Assert
 			b.Should().BeEquivalentTo(expected);
 		}
 
-		[TestCaseSource(nameof(OneBinding))]
-		public void Should_Convert_BindingToString(string expected, BindingDto binding)
+		[TestCaseSource(nameof(OneChord))]
+		public void Should_Convert_ChordToString(string expected, ChordDto chord)
 		{
 			// Arrange
 
 
 			// Act
-			var b = binding.ToString();
+			var b = chord.ToString();
 
 			// Assert
 			b.Should().Be(expected);
 		}
 
-		[TestCaseSource(nameof(MultipleBindings))]
-		public void Should_Convert_StringsToMultipleBindings(string bindings, SequenceDto expected)
+		[TestCaseSource(nameof(SequenceOfChords))]
+		public void Should_Convert_StringsToSequence(string sequence, SequenceDto expected)
 		{
 			// Arrange
 
 
 			// Act
-			var b = bindings.ToSequenceDto();
+			var b = sequence.ToSequenceDto();
 
 			// Assert
 			b.Should().BeEquivalentTo(expected);
 		}
 
-		[TestCaseSource(nameof(MultipleBindings))]
-		public void Should_Convert_MultipleBindingsToString(string expected, SequenceDto bindings)
+		[TestCaseSource(nameof(SequenceOfChords))]
+		public void Should_Convert_SequenceToString(string expected, SequenceDto sequence)
 		{
 			// Arrange
 
 
 			// Act
-			var b = bindings.ToString();
+			var b = sequence.ToString();
 
 			// Assert
 			b.Should().Be(expected);
@@ -74,12 +74,12 @@ namespace Wims.Tests
 			b.Should().BeEquivalentTo(expected);
 		}
 
-		static IEnumerable<object> OneBinding()
+		static IEnumerable<object> OneChord()
 		{
 			yield return new object[]
 			{
 				"",
-				new BindingDto
+				new ChordDto
 				{
 					Keys = new string[0]
 				}
@@ -87,7 +87,7 @@ namespace Wims.Tests
 			yield return new object[]
 			{
 				"A",
-				new BindingDto
+				new ChordDto
 				{
 					Keys = new[]
 					{
@@ -98,7 +98,7 @@ namespace Wims.Tests
 			yield return new object[]
 			{
 				"Ctrl + Shift + A",
-				new BindingDto
+				new ChordDto
 				{
 					Keys = new[]
 					{
@@ -110,7 +110,7 @@ namespace Wims.Tests
 			};
 		}
 
-		static IEnumerable<object> MultipleBindings()
+		static IEnumerable<object> SequenceOfChords()
 		{
 			//yield return new object[]
 			//{
@@ -123,14 +123,14 @@ namespace Wims.Tests
 				"A, B",
 				new SequenceDto
 				{
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
 							"A"
 						}
 					},
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -145,21 +145,21 @@ namespace Wims.Tests
 				"A, B, C",
 				new SequenceDto
 				{
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
 							"A"
 						}
 					},
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
 							"B"
 						}
 					},
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -174,7 +174,7 @@ namespace Wims.Tests
 				"Ctrl + A, Ctrl + B",
 				new SequenceDto
 				{
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -182,7 +182,7 @@ namespace Wims.Tests
 							"A"
 						}
 					},
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -214,7 +214,7 @@ namespace Wims.Tests
 				},
 				new SequenceDto
 				{
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -222,7 +222,7 @@ namespace Wims.Tests
 							"A"
 						}
 					},
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{
@@ -240,7 +240,7 @@ namespace Wims.Tests
 				},
 				new SequenceDto
 				{
-					new BindingDto
+					new ChordDto
 					{
 						Keys = new[]
 						{

@@ -19,7 +19,7 @@ namespace Wims.Ui.Utils
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is IEnumerable<BindingDto> sequence)
+			if (value is IEnumerable<ChordDto> sequence)
 			{
 				return sequence.ToString();
 			}

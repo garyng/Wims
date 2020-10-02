@@ -8,7 +8,7 @@ namespace Wims.Ui.Profiles
 	{
 		public ShortcutsProfile()
 		{
-			CreateMap<ChordRo, BindingDto>();
+			CreateMap<ChordRo, ChordDto>();
 			CreateMap<MatchRo, MatchDto>();
 			CreateMap<ContextRo, ContextDto>();
 		}

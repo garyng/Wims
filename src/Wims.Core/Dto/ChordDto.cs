@@ -2,7 +2,7 @@
 
 namespace Wims.Core.Dto
 {
-	public class BindingDto
+	public class ChordDto
 	{
 		public string[] Keys { get; set; }
 
@@ -10,12 +10,11 @@ namespace Wims.Core.Dto
 		{
 			return string.Join(" + ", Keys);
 		}
-
 		
 		// todo: make this implicit conversion
-		public static BindingDto FromString(string keys)
+		public static ChordDto FromString(string keys)
 		{
-			return new BindingDto
+			return new ChordDto
 			{
 				Keys = keys.Split(" + ", StringSplitOptions.RemoveEmptyEntries)
 			};
