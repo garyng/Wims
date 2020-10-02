@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Markup;
 using DynamicData;
 using GaryNg.Utils.Enumerable;
 using MediatR;
@@ -22,85 +19,6 @@ using Void = GaryNg.Utils.Void.Void;
 
 namespace Wims.Ui
 {
-	public class BindingDtoToStringConverter : MarkupExtension, IValueConverter
-	{
-		private static Lazy<BindingDtoToStringConverter> _instance =
-			new Lazy<BindingDtoToStringConverter>(() => new BindingDtoToStringConverter());
-
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			return _instance.Value;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is IEnumerable<BindingDto> binding)
-			{
-				return binding.AsString();
-			}
-
-			return value;
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is string binding)
-			{
-				return binding.ToBindingDto();
-			}
-
-			return value;
-		}
-	}
-
-	public class SearchByText : IRequest<IList<ShortcutDto>>
-	{
-		public IList<ShortcutDto> Shortcuts { get; set; }
-		public string Query { get; set; }
-	}
-
-	public class SearchByTextRequestHandler : IRequestHandler<SearchByText, IList<ShortcutDto>>
-	{
-		public async Task<IList<ShortcutDto>> Handle(SearchByText request, CancellationToken cancellationToken)
-		{
-			if (string.IsNullOrEmpty(request.Query)) return request.Shortcuts;
-
-			return FuzzySharp.Process.ExtractTop(new ShortcutDto
-				{
-					Description = request.Query
-				}, request.Shortcuts, s => s.Description, limit: 10, cutoff: 60)
-				.Select(r => r.Value)
-				.ToList();
-		}
-	}
-
-	public class SearchByKeys : IRequest<IList<ShortcutDto>>
-	{
-		public IList<ShortcutDto> Shortcuts { get; set; }
-		public List<BindingDto> Query { get; set; }
-	}
-
-	public class SearchByKeysRequestHandler : IRequestHandler<SearchByKeys, IList<ShortcutDto>>
-	{
-		public async Task<IList<ShortcutDto>> Handle(SearchByKeys request, CancellationToken cancellationToken)
-		{
-			if (request.Query.Empty()) return request.Shortcuts;
-
-			return FuzzySharp.Process.ExtractTop(new ShortcutDto
-				{
-					Bindings = request.Query
-				}, request.Shortcuts, s => s.Bindings.AsString(), limit: 10, cutoff: 60)
-				.Select(r => r.Value)
-				.ToList();
-		}
-	}
-
-	public enum QueryModes
-	{
-		Text,
-		Keys
-	}
-
 	public class MainViewModel : ViewModelBase
 	{
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
