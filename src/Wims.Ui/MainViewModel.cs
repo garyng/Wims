@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Threading;
-using System.Threading.Tasks;
 using DynamicData;
-using GaryNg.Utils.Enumerable;
 using MediatR;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -30,7 +26,6 @@ namespace Wims.Ui
 
 		[Reactive] public string TextQuery { get; set; }
 		[Reactive] public List<BindingDto> KeysQuery { get; set; }
-
 
 		private ReadOnlyObservableCollection<ShortcutDto> _results;
 
@@ -70,7 +65,6 @@ namespace Wims.Ui
 				.DisposeMany()
 				.Bind(out _results)
 				.Subscribe();
-
 
 			Observable.Merge(
 					Search(this,

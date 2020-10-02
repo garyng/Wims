@@ -10,6 +10,7 @@
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                    xmlns:rx="http://reactiveui.net"
                    xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
+                   xmlns:utils1="clr-namespace:Wims.Ui.Utils"
                    Title="Wims"
                    Width="800"
                    Height="500"
@@ -148,7 +149,7 @@
 
 								<StackPanel Grid.Column="1">
 									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
-									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Bindings, Converter={local:BindingDtoToStringConverter}}" />
+									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Bindings, Converter={utils1:BindingDtoToStringConverter}}" />
 								</StackPanel>
 							</Grid>
 

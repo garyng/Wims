@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using Wims.Core.Dto;
 
-namespace Wims.Ui
+namespace Wims.Ui.Utils
 {
 	public class BindingDtoToStringConverter : MarkupExtension, IValueConverter
 	{
