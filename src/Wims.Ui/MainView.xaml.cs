@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ReactiveUI;
+using Wims.Core.Dto;
 
 namespace Wims.Ui
 {
@@ -30,6 +32,11 @@ namespace Wims.Ui
 					.DisposeWith(d);
 
 				this.OneWayBind(ViewModel, vm => vm.IsTextQuery, v => v.TextQuery.Visibility)
+					.DisposeWith(d);
+
+				this.WhenAnyValue(v => v.KeysQuery.Keys)
+					.Select(keys => keys.ToBindingDto())
+					.BindTo(this, v => v.ViewModel.KeysQuery)
 					.DisposeWith(d);
 
 				this.OneWayBind(ViewModel, vm => vm.IsKeysQuery, v => v.KeysQuery.Visibility)
