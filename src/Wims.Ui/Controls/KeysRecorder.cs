@@ -1196,7 +1196,7 @@ namespace Wims.Ui.Controls
 		}
 
 		public static readonly DependencyProperty KeysProperty = DependencyProperty.Register(
-			"Keys", typeof(List<List<string>>), typeof(KeysRecorder), new PropertyMetadata(default(List<List<string>>)));
+			"Keys", typeof(List<List<string>>), typeof(KeysRecorder), new PropertyMetadata(new List<List<string>>()));
 
 		public List<List<string>> Keys
 		{
