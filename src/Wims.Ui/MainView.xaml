@@ -4,6 +4,7 @@
                    xmlns:controls="clr-namespace:Wims.Ui.Controls"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:dto="clr-namespace:Wims.Core.Dto;assembly=Wims.Core"
+                   xmlns:kr="clr-namespace:Wims.Ui.Controls.KeysRecorder"
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -97,13 +98,13 @@
 					         BorderThickness="0"
 					         FontSize="24"
 					         FontWeight="Light" />
-					<controls:KeysRecorder x:Name="KeysQuery"
-					                       Grid.Column="0"
-					                       md:HintAssist.Hint="Recording keys..."
-					                       md:TextFieldAssist.DecorationVisibility="Hidden"
-					                       BorderThickness="0"
-					                       FontSize="24"
-					                       FontWeight="Light" />
+					<kr:KeysRecorder x:Name="KeysQuery"
+					                 Grid.Column="0"
+					                 md:HintAssist.Hint="Recording keys..."
+					                 md:TextFieldAssist.DecorationVisibility="Hidden"
+					                 BorderThickness="0"
+					                 FontSize="24"
+					                 FontWeight="Light" />
 
 					<StackPanel Grid.Column="1"
 					            VerticalAlignment="Center"

@@ -4,6 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Wims.Ui;
 using Wims.Ui.Controls;
+using Wims.Ui.Controls.KeysRecorder;
 
 namespace Wims.Tests
 {
