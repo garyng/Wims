@@ -3,6 +3,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:controls="clr-namespace:Wims.Ui.Controls"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:dto="clr-namespace:Wims.Core.Dto;assembly=Wims.Core"
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -129,7 +130,7 @@
 		                           Grid.Row="1"
 		                           IsEmpty="False">
 			<md:ColorZone Margin="16,8,16,16"
-			              Padding="16"
+			              Padding="16,16,8,16"
 			              md:ShadowAssist.ShadowDepth="Depth5"
 			              md:ShadowAssist.ShadowEdges="All"
 			              CornerRadius="8"
@@ -137,8 +138,19 @@
 			              MouseDown="OnDrag">
 				<ListBox x:Name="Results">
 					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}" />
+						<DataTemplate DataType="{x:Type dto:ShortcutDto}">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<StackPanel Grid.Column="1">
+									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
+									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Bindings, Converter={local:BindingDtoToStringConverter}}" />
+								</StackPanel>
+							</Grid>
+
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
