@@ -33,7 +33,6 @@ namespace Wims.Ui.Requests
 			var sourceDir = request.SourceDirectory;
 			var d = new DeserializerBuilder()
 				.WithNamingConvention(CamelCaseNamingConvention.Instance)
-				// todo: rename to BindingRoConverter?
 				.WithTypeConverter(new BindingRoConverter())
 				.Build();
 

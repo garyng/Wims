@@ -166,7 +166,7 @@ namespace Wims.Tests
 						"Reformat code", new ShortcutRo
 						{
 							Context = "vs",
-							Sequence = new List<BindingRo>
+							Sequence = new SequenceRo
 							{
 								new BindingRo
 								{
@@ -207,7 +207,7 @@ namespace Wims.Tests
 						"Reformat code", new ShortcutRo
 						{
 							Context = "vscode",
-							Sequence = new List<BindingRo>
+							Sequence = new SequenceRo
 							{
 								new BindingRo
 								{
