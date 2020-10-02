@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Autofac.Extras.FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
-using Wims.Ui;
 using Wims.Ui.Requests;
 
 namespace Wims.Tests

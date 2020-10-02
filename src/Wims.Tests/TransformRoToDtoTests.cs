@@ -11,7 +11,6 @@ using NUnit.Framework;
 using Wims.Core.Dto;
 using Wims.Core.Exceptions;
 using Wims.Core.Models;
-using Wims.Ui;
 using Wims.Ui.Profiles;
 using Wims.Ui.Requests;
 

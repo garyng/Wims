@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Windows.Data;
 using FluentAssertions;
 using NUnit.Framework;
 using Wims.Core.Dto;
