@@ -33,7 +33,7 @@ namespace Wims.Ui.Requests
 			var sourceDir = request.SourceDirectory;
 			var d = new DeserializerBuilder()
 				.WithNamingConvention(CamelCaseNamingConvention.Instance)
-				.WithTypeConverter(new BindingRoConverter())
+				.WithTypeConverter(new ChordRoConverter())
 				.Build();
 
 			return await _fs.Directory.EnumerateFiles(sourceDir, "*.yml", SearchOption.AllDirectories)

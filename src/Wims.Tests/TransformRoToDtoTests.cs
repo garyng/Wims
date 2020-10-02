@@ -168,11 +168,11 @@ namespace Wims.Tests
 							Context = "vs",
 							Sequence = new SequenceRo
 							{
-								new BindingRo
+								new ChordRo
 								{
 									Keys = new[] {"Ctrl", "Shift", "K"},
 								},
-								new BindingRo
+								new ChordRo
 								{
 									Keys = new[] {"Ctrl", "Shift", "F"},
 								}
@@ -209,7 +209,7 @@ namespace Wims.Tests
 							Context = "vscode",
 							Sequence = new SequenceRo
 							{
-								new BindingRo
+								new ChordRo
 								{
 									Keys = new[] {"Ctrl", "Alt", "F"},
 								}

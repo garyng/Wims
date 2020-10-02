@@ -5,7 +5,7 @@ namespace Wims.Core.Models
 	/// <summary>
 	/// A sequence of chords
 	/// </summary>
-	public class SequenceRo : List<BindingRo>
+	public class SequenceRo : List<ChordRo>
 	{
 	}
 }

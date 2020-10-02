@@ -7,11 +7,11 @@ using YamlDotNet.Serialization;
 
 namespace Wims.Ui.Utils
 {
-	public class BindingRoConverter : IYamlTypeConverter
+	public class ChordRoConverter : IYamlTypeConverter
 	{
 		public bool Accepts(Type type)
 		{
-			return type == typeof(BindingRo);
+			return type == typeof(ChordRo);
 		}
 
 		public object ReadYaml(IParser parser, Type type)
@@ -19,7 +19,7 @@ namespace Wims.Ui.Utils
 			var value = parser.Consume<Scalar>().Value;
 			var keys = value.Split('+', StringSplitOptions.RemoveEmptyEntries)
 				.Select(key => key.Trim());
-			return new BindingRo
+			return new ChordRo
 			{
 				Keys = keys.ToArray()
 			};
@@ -27,8 +27,8 @@ namespace Wims.Ui.Utils
 
 		public void WriteYaml(IEmitter emitter, object value, Type type)
 		{
-			var binding = (BindingRo) value;
-			var keys = string.Join(" + ", binding.Keys);
+			var chord = (ChordRo) value;
+			var keys = string.Join(" + ", chord.Keys);
 			emitter.Emit(new Scalar(null, null, keys, ScalarStyle.Any, true, false));
 		}
 	}
