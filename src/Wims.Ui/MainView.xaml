@@ -162,9 +162,28 @@
 			</md:ColorZone>
 		</utils:CollectionContainer>
 		<tb:TaskbarIcon x:Name="Icon" IconSource="/Icons/color.ico">
+			<tb:TaskbarIcon.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Show">
+						<MenuItem.Icon>
+							<md:PackIcon Kind="Eye" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Reload">
+						<MenuItem.Icon>
+							<md:PackIcon Kind="Reload" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Exit">
+						<MenuItem.Icon>
+							<md:PackIcon Kind="Close" />
+						</MenuItem.Icon>
+					</MenuItem>
+				</ContextMenu>
+			</tb:TaskbarIcon.ContextMenu>
 			<tb:TaskbarIcon.TrayToolTip>
 				<Grid Background="White">
-					<TextBlock Text="Wims" />
+					<TextBlock Margin="4" Text="Wims" />
 				</Grid>
 			</tb:TaskbarIcon.TrayToolTip>
 		</tb:TaskbarIcon>
