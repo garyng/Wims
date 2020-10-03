@@ -2,8 +2,10 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using NHotkey;
 using ReactiveUI;
 using Wims.Core.Dto;
+using NHotkey.Wpf;
 
 namespace Wims.Ui
 {
@@ -50,7 +52,38 @@ namespace Wims.Ui
 						})
 					.DisposeWith(d);
 
+				// hotkey for switching query mode
+				Observable.FromEventPattern<HotkeyEventArgs>(
+						add =>
+							HotkeyManager.Current.AddOrReplace("Switch Query Mode", Key.Back, ModifierKeys.Shift, add),
+						remove => HotkeyManager.Current.Remove("Switch Query Mode"))
+					.Select(_ => ViewModel.QueryMode switch
+					{
+						QueryModes.Text => QueryModes.Keys,
+						QueryModes.Keys => QueryModes.Text,
+						_ => throw new ArgumentOutOfRangeException()
+					})
+					.Subscribe(mode =>
+					{
+						this.ViewModel.QueryMode = mode;
+					});
+
+
+				// auto focus on the search box when switching query mode
+				this.WhenAnyValue(v => v.ViewModel.QueryMode)
+					.Select(m => m switch
+					{
+						QueryModes.Text => TextQuery,
+						QueryModes.Keys => KeysQuery,
+						_ => throw new ArgumentOutOfRangeException()
+					})
+					.Subscribe(textbox =>
+					{
+						textbox.Focus();
+					});
+
 				this.ViewModel.LoadShortcuts.Execute().Subscribe();
+
 			});
 		}
 
