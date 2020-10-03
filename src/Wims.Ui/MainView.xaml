@@ -9,6 +9,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                    xmlns:rx="http://reactiveui.net"
+                   xmlns:tb="http://www.hardcodet.net/taskbar"
                    xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
                    xmlns:utils1="clr-namespace:Wims.Ui.Utils"
                    Title="Wims"
@@ -115,12 +116,14 @@
 								<md:PackIcon Width="16"
 								             Height="16"
 								             Margin="4"
+								             Foreground="White"
 								             Kind="FormTextbox" />
 							</ToggleButton.Content>
 							<md:ToggleButtonAssist.OnContent>
 								<md:PackIcon Width="16"
 								             Height="16"
 								             Margin="4"
+								             Foreground="White"
 								             Kind="Keyboard" />
 							</md:ToggleButtonAssist.OnContent>
 						</ToggleButton>
@@ -157,7 +160,13 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</md:ColorZone>
-
 		</utils:CollectionContainer>
+		<tb:TaskbarIcon x:Name="Icon" IconSource="/Icons/color.ico">
+			<tb:TaskbarIcon.TrayToolTip>
+				<Grid Background="White">
+					<TextBlock Text="Wims" />
+				</Grid>
+			</tb:TaskbarIcon.TrayToolTip>
+		</tb:TaskbarIcon>
 	</Grid>
 </rx:ReactiveWindow>
