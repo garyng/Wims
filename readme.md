@@ -1,6 +1,6 @@
 # Wims
 
-![](design/exports/banner-dark.png)
+![](design/exports/banner-color@3x.png)
 
 > — because I can't remember them
 
