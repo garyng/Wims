@@ -12,7 +12,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<materialDesign:CustomColorTheme BaseTheme="Dark"
 				                                 PrimaryColor="#fafafa"
-				                                 SecondaryColor="#3d5afe" />
+				                                 SecondaryColor="#ff4081" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Grey.Named.Primary.xaml" />
 
