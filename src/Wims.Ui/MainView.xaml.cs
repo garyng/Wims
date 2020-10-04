@@ -116,7 +116,7 @@ namespace Wims.Ui
 					.DisposeWith(d)
 					.OnCombination(new Dictionary<Combination, Action>
 					{
-						{Combination.TriggeredBy(Keys.F2).With(Keys.LWin), ActivateWindow}
+						{Combination.TriggeredBy(Keys.Escape).With(Keys.LWin), ActivateWindow}
 					});
 			});
 		}
