@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\RobotoMono-Regular.ttf" />
     <None Remove="Icons\color.ico" />
   </ItemGroup>
 
@@ -59,6 +60,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\RobotoMono-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\color.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

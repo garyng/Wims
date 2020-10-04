@@ -47,7 +47,7 @@ namespace Wims.Ui
 			splat.InitializeSplat();
 			splat.InitializeReactiveUI();
 			splat.RegisterViewsForViewModels(typeof(App).Assembly);
-			splat.RegisterConstant(new StringToImageSourceConverter(), typeof(IBindingTypeConverter));
+			splat.RegisterConstant(new RxStringToImageSourceConverter(), typeof(IBindingTypeConverter));
 
 			return splat;
 		}

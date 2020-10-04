@@ -137,7 +137,7 @@
 		                           Grid.Row="1"
 		                           IsEmpty="False">
 			<md:ColorZone Margin="16,8,16,16"
-			              Padding="16,16,8,16"
+			              Padding="16"
 			              md:ShadowAssist.ShadowDepth="Depth5"
 			              md:ShadowAssist.ShadowEdges="All"
 			              CornerRadius="8"
@@ -151,10 +151,20 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-
+								<Image Grid.Column="0"
+								       Width="24"
+								       Height="24"
+								       Margin="0,0,16,0"
+								       Source="{Binding Context.Icon, Converter={local:StringToImageSourceConverter}}" />
 								<StackPanel Grid.Column="1">
 									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
-									<TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Path=Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
+									<TextBlock FontFamily="{StaticResource RobotoMono}"
+									           Style="{StaticResource MaterialDesignCaptionTextBlock}"
+									           Text="{Binding Path=Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
+									<TextBlock FontFamily="{StaticResource RobotoMono}"
+									           Opacity="0.5"
+									           Style="{StaticResource MaterialDesignOverlineTextBlock}"
+									           Text="{Binding Path=.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
 								</StackPanel>
 							</Grid>
 

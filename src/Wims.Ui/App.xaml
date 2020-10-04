@@ -9,6 +9,8 @@
 				<Setter Property="materialDesign:ScrollBarAssist.ThumbCornerRadius" Value="4" />
 				<Setter Property="materialDesign:ScrollBarAssist.ThumbWidth" Value="8" />
 			</Style>
+			<FontFamily x:Key="RobotoMono">pack://application;,,,/Fonts/#Roboto Mono</FontFamily>
+
 			<ResourceDictionary.MergedDictionaries>
 				<materialDesign:CustomColorTheme BaseTheme="Dark"
 				                                 PrimaryColor="#fafafa"
@@ -18,6 +20,7 @@
 
 				<ResourceDictionary Source="pack://application:,,,/Controls/KeysRecorder/KeysRecorder.Styles.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/GaryNg.Utils.Wpf;component/Controls/CollectionController.Styles.xaml" />
+
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

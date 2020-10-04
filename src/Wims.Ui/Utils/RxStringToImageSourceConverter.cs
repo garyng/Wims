@@ -7,7 +7,7 @@ using SharpVectors.Converters;
 
 namespace Wims.Ui
 {
-	public class StringToImageSourceConverter : IBindingTypeConverter
+	public class RxStringToImageSourceConverter : IBindingTypeConverter
 	{
 		public int GetAffinityForObjects(Type fromType, Type toType)
 		{
