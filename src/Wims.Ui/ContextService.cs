@@ -88,6 +88,14 @@ namespace Wims.Ui
 			_context.OnNext(new ActiveContext());
 		}
 
+		/// <summary>
+		/// Clear current context
+		/// </summary>
+		public void Clear()
+		{
+			_context.OnNext(null);
+		}
+
 		public bool Match(MatchDto match)
 		{
 			var current = _context.Value;

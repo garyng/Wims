@@ -36,6 +36,9 @@ namespace Wims.Ui
 				this.OneWayBind(ViewModel, vm => vm.Context.Icon, v => v.ContextIcon.Source)
 					.DisposeWith(d);
 
+				this.BindCommand(ViewModel, vm => vm.RemoveContext, v => v.RemoveContext)
+					.DisposeWith(d);
+
 				this.Bind(ViewModel, vm => vm.TextQuery, v => v.TextQuery.Text)
 					.DisposeWith(d);
 

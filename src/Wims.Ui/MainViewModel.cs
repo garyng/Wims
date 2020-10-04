@@ -22,6 +22,7 @@ namespace Wims.Ui
 		private readonly ContextService _context;
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
 		public ReactiveCommand<Void, Void> RefreshContext { get; set; }
+		public ReactiveCommand<Void, Void> RemoveContext { get; set; }
 
 		[Reactive] public QueryModes QueryMode { get; set; }
 
@@ -60,6 +61,12 @@ namespace Wims.Ui
 			RefreshContext = ReactiveCommand.Create<Void, Void>(_ =>
 			{
 				_context.Refresh();
+				return Void.Default;
+			});
+
+			RemoveContext = ReactiveCommand.Create<Void, Void>(_ =>
+			{
+				_context.Clear();
 				return Void.Default;
 			});
 
