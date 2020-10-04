@@ -9,6 +9,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                    xmlns:rx="http://reactiveui.net"
+                   xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                    xmlns:tb="http://www.hardcodet.net/taskbar"
                    xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
                    xmlns:utils1="clr-namespace:Wims.Ui.Utils"
@@ -48,7 +49,8 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<md:ColorZone Padding="4"
+				<md:ColorZone x:Name="ContextContainer"
+				              Padding="4"
 				              CornerRadius="8,8,0,0"
 				              Mode="Custom">
 					<md:ColorZone.Foreground>
@@ -63,21 +65,20 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Button Width="24"
-						        Height="24"
-						        Style="{StaticResource MaterialDesignIconButton}">
-							<md:PackIcon Width="16"
-							             Height="16"
-							             VerticalAlignment="Center"
-							             Kind="MicrosoftVisualStudio" />
-						</Button>
-						<TextBlock x:Name="Context"
+						<Image x:Name="ContextIcon"
+						       Width="16"
+						       Height="16"
+						       Margin="4"
+						       RenderOptions.BitmapScalingMode="HighQuality" />
+
+						<TextBlock x:Name="ContextName"
 						           Grid.Column="1"
 						           VerticalAlignment="Center"
 						           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-						           Text="asdasd"
+						           Text="context"
 						           TextAlignment="Center" />
-						<Button Grid.Column="2"
+						<Button x:Name="RemoveContext"
+						        Grid.Column="2"
 						        Width="24"
 						        Height="24"
 						        Style="{StaticResource MaterialDesignIconButton}">

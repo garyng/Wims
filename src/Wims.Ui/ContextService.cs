@@ -60,6 +60,11 @@ namespace Wims.Ui
 			User32.GetClassName(hwnd, @class, @class.Capacity);
 			return @class.ToString();
 		}
+
+		public override string ToString()
+		{
+			return new {hwnd = Hwnd.DangerousGetHandle(), Pid, Title, Exe, Class}.ToString();
+		}
 	}
 
 

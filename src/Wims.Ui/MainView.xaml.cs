@@ -23,8 +23,19 @@ namespace Wims.Ui
 		public MainView()
 		{
 			InitializeComponent();
+
 			this.WhenActivated(d =>
 			{
+				this.OneWayBind(ViewModel, vm => vm.Context, v => v.ContextContainer.Visibility,
+						c => c != null ? Visibility.Visible : Visibility.Collapsed)
+					.DisposeWith(d);
+
+				this.OneWayBind(ViewModel, vm => vm.Context.Name, v => v.ContextName.Text)
+					.DisposeWith(d);
+
+				this.OneWayBind(ViewModel, vm => vm.Context.Icon, v => v.ContextIcon.Source)
+					.DisposeWith(d);
+
 				this.Bind(ViewModel, vm => vm.TextQuery, v => v.TextQuery.Text)
 					.DisposeWith(d);
 
