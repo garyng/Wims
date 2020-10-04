@@ -121,7 +121,7 @@ namespace Wims.Ui
 			var modes = this.WhenAnyValue(vm => vm.QueryMode);
 
 			// filter input by query
-			var query = this.WhenAnyValue(queryProperty)
+			var queries = this.WhenAnyValue(queryProperty)
 				.Throttle(TimeSpan.FromMilliseconds(300))
 				.CombineLatest(modes, (query, m) => new {query, mode = m})
 				.Where(q => q.mode == mode)
@@ -130,9 +130,12 @@ namespace Wims.Ui
 			// filter shortcuts by context
 			var shortcuts = this.WhenAnyValue(vm => vm.Context)
 				.CombineLatest(LoadShortcuts, (c, ss) =>
-					ss.Shortcuts.Where(s => c.Equals(s.Context)).ToList());
+					c == null
+						? ss.Shortcuts
+						: ss.Shortcuts
+							.Where(s => c.Equals(s.Context)).ToList());
 
-			return query
+			return queries
 				.CombineLatest(shortcuts, (query, all) =>
 					new {query, shortcuts = all})
 				.Select(q => requestFunc(q.query, q.shortcuts));
