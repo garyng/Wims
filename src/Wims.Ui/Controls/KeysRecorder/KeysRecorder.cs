@@ -10,6 +10,11 @@ namespace Wims.Ui.Controls.KeysRecorder
 {
 	public class KeysRecorder : TextBox
 	{
+		/// <summary>
+		/// Raised when the specified backspace key will be triggered
+		/// </summary>
+		public event Action OnWillBackspace;
+
 		public static readonly DependencyProperty BackspaceKeyProperty = DependencyProperty.Register(
 			"BackspaceKey", typeof(Key), typeof(KeysRecorder), new PropertyMetadata(Key.Back));
 
@@ -21,6 +26,7 @@ namespace Wims.Ui.Controls.KeysRecorder
 
 		public static readonly DependencyProperty KeysProperty = DependencyProperty.Register(
 			"Keys", typeof(List<List<string>>), typeof(KeysRecorder), new PropertyMetadata(new List<List<string>>()));
+
 
 		public List<List<string>> Keys
 		{
@@ -47,6 +53,15 @@ namespace Wims.Ui.Controls.KeysRecorder
 				.PreviewKeyUp
 				.Where(e => !e.IsRepeat)
 				.Select(KeyEventDto.Up);
+
+			this.Events()
+				.PreviewKeyDown
+				.Where(e => e.Key == BackspaceKey)
+				.Subscribe(e =>
+				{
+					OnWillBackspace?.Invoke();
+				})
+				.DisposeWith(_disposables);
 
 			var keys = Observable.Merge(down, up);
 
