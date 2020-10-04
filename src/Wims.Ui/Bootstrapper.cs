@@ -28,6 +28,8 @@ namespace Wims.Ui
 			services.AddSingleton<MainViewModel>();
 			services.AddSingleton<IFileSystem>(new FileSystem());
 
+			services.AddSingleton<ContextService>();
+
 
 			//services.Scan(scan => scan
 			//	.FromAssemblyOf<ViewModelBase>()
