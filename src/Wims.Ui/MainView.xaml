@@ -18,6 +18,7 @@
                    MaxHeight="500"
                    x:TypeArguments="local:MainViewModel"
                    AllowsTransparency="True"
+                   Deactivated="OnDeactivated"
                    FontFamily="{md:MaterialDesignFont}"
                    ShowInTaskbar="False"
                    TextElement.FontSize="14"

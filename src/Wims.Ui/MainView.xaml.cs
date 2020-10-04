@@ -104,14 +104,6 @@ namespace Wims.Ui
 					{
 						{Combination.TriggeredBy(Keys.F2).With(Keys.LWin), ActivateWindow}
 					});
-
-
-				this.Events()
-					.Deactivated
-					// todo: config to show on launch
-					.Skip(1)
-					.Subscribe(_ => { Hide(); })
-					.DisposeWith(d);
 			});
 		}
 
@@ -133,6 +125,12 @@ namespace Wims.Ui
 			await ViewModel.RefreshContext.Execute();
 			Show();
 			Activate();
+		}
+
+		private void OnDeactivated(object? sender, EventArgs e)
+		{
+			// todo: config to show on launch
+			Hide();
 		}
 	}
 }
