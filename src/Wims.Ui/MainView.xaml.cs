@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
+using Gma.System.MouseKeyHook;
 using NHotkey;
 using ReactiveUI;
 using Wims.Core.Dto;
 using NHotkey.Wpf;
+using Application = System.Windows.Application;
 
 namespace Wims.Ui
 {
@@ -63,10 +69,7 @@ namespace Wims.Ui
 						QueryModes.Keys => QueryModes.Text,
 						_ => throw new ArgumentOutOfRangeException()
 					})
-					.Subscribe(mode =>
-					{
-						this.ViewModel.QueryMode = mode;
-					});
+					.Subscribe(mode => { this.ViewModel.QueryMode = mode; });
 
 
 				// auto focus on the search box when switching query mode
@@ -77,13 +80,38 @@ namespace Wims.Ui
 						QueryModes.Keys => KeysQuery,
 						_ => throw new ArgumentOutOfRangeException()
 					})
-					.Subscribe(textbox =>
-					{
-						textbox.Focus();
-					});
+					.Subscribe(textbox => { textbox.Focus(); });
 
+				this.Exit
+					.Events()
+					.Click
+					.Subscribe(_ => Application.Current.Shutdown())
+					.DisposeWith(d);
+
+				this.BindCommand(ViewModel, vm => vm.LoadShortcuts, v => v.Reload)
+					.DisposeWith(d);
+
+
+				// load all shortcuts
 				this.ViewModel.LoadShortcuts.Execute().Subscribe();
 
+				this.TrayIcon
+					.DisposeWith(d);
+
+				Hook.GlobalEvents()
+					.DisposeWith(d)
+					.OnCombination(new Dictionary<Combination, Action>
+					{
+						{Combination.TriggeredBy(Keys.F2).With(Keys.LWin), ActivateWindow}
+					});
+
+
+				this.Events()
+					.Deactivated
+					// todo: config to show on launch
+					.Skip(1)
+					.Subscribe(_ => { Hide(); })
+					.DisposeWith(d);
 			});
 		}
 
@@ -93,6 +121,18 @@ namespace Wims.Ui
 			{
 				DragMove();
 			}
+		}
+
+		private void OnTrayIconDoubleClick(object sender, RoutedEventArgs e)
+		{
+			ActivateWindow();
+		}
+
+		private async void ActivateWindow()
+		{
+			await ViewModel.RefreshContext.Execute();
+			Show();
+			Activate();
 		}
 	}
 }
