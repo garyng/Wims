@@ -158,7 +158,7 @@ namespace Wims.Ui.Controls
 				return;
 			}
 
-			var gaps = ranges.GetGaps(text.Length).ToList();
+			var gaps = ranges.GetGaps(max: text.Length).ToList();
 			var runs = ranges.Select(r => new {range = r, highlight = true})
 				.Concat(gaps.Select(r => new {range = r, highlight = false}))
 				// todo: will this be too slow?
