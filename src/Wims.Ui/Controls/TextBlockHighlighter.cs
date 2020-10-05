@@ -88,6 +88,20 @@ namespace Wims.Ui.Controls
 
 	public class TextBlockHighlighter : DependencyObject
 	{
+		public static readonly DependencyProperty HighlightBrushProperty = DependencyProperty.RegisterAttached(
+			"HighlightBrush", typeof(Brush), typeof(TextBlockHighlighter),
+			new PropertyMetadata(default(Brush), UpdateHighlight));
+
+		public static void SetHighlightBrush(DependencyObject element, Brush value)
+		{
+			element.SetValue(HighlightBrushProperty, value);
+		}
+
+		public static Brush GetHighlightBrush(DependencyObject element)
+		{
+			return (Brush) element.GetValue(HighlightBrushProperty);
+		}
+
 		public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
 			"Text", typeof(string), typeof(TextBlockHighlighter),
 			new PropertyMetadata(default(string), UpdateHighlight));
@@ -103,23 +117,17 @@ namespace Wims.Ui.Controls
 		}
 
 		public static readonly DependencyProperty RangesProperty = DependencyProperty.RegisterAttached(
-			"Ranges", typeof(List<HighlighterRange>), typeof(TextBlockHighlighter),
-			new PropertyMetadata(new List<HighlighterRange>(), UpdateHighlight));
+			"Ranges", typeof(List<OrderedRange>), typeof(TextBlockHighlighter),
+			new PropertyMetadata(new List<OrderedRange>(), UpdateHighlight));
 
 		public static void SetRanges(DependencyObject element, List<Range> value)
 		{
 			element.SetValue(RangesProperty, value);
 		}
 
-		public static List<HighlighterRange> GetRanges(DependencyObject element)
+		public static List<OrderedRange> GetRanges(DependencyObject element)
 		{
-			return new List<HighlighterRange>
-			{
-				new HighlighterRange(0, 2),
-				new HighlighterRange(5, 8),
-			};
-			// todo: convert matching block to ranges
-			// return (List<HighlighterRange>) element.GetValue(RangesProperty);
+			return (List<OrderedRange>)element.GetValue(RangesProperty);
 		}
 
 		private static void UpdateHighlight(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -127,18 +135,32 @@ namespace Wims.Ui.Controls
 			if (!(d is TextBlock tb)) return;
 
 			var text = GetText(tb);
-			var ranges = GetRanges(d).FillGaps(text.Length, h =>
-			{
-				h.Highlight = false;
-				return h;
-			});
-			tb.Inlines.Clear();
+			if (string.IsNullOrEmpty(text)) return;
 
-			var runs = ranges.Select(r => new Run(text[r.Start..r.End])
+			var brush = GetHighlightBrush(tb);
+			if (brush == null) return;
+
+			var ranges = GetRanges(tb);
+			if (ranges?.Count == 0)
 			{
-				FontWeight = r.Highlight ? FontWeights.Heavy : tb.FontWeight
-				// Background = r.Highlight ? Brushes.Yellow : tb.Background
-			});
+				tb.Inlines.Add(new Run(text));
+				return;
+			}
+
+			var highlights = GetRanges(d).ToList();
+			var gaps = highlights.GetGaps(text.Length).ToList();
+			var runs = highlights.Select(r => new {range = r, highlight = true})
+				.Concat(gaps.Select(r => new {range = r, highlight = false}))
+				// todo: will this be too slow?
+				.OrderBy(item => item.range.Start)
+				.ThenBy(item => item.range.End)
+				.Select(item => new Run(text[item.range.Start..item.range.End])
+				{
+					// FontWeight = item.highlight ? FontWeights.Heavy : tb.FontWeight,
+					Foreground = item.highlight ? brush : tb.Foreground
+					// Background = r.Highlight ? Brushes.Yellow : tb.Background
+				});
+
 			tb.Inlines.AddRange(runs);
 		}
 	}
