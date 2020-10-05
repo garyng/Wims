@@ -165,7 +165,7 @@ namespace Wims.Tests
 
 
 			// Act
-			var gaps = ranges.GetGaps(max);
+			var gaps = ranges.GetGaps(max: max);
 
 			// Assert
 			gaps.Should().BeEquivalentTo(expected);
@@ -198,6 +198,49 @@ namespace Wims.Tests
 				{
 					new OrderedRange(5, 7),
 					new OrderedRange(9, 11),
+				}
+			};
+		}
+
+		[TestCaseSource(nameof(FillGapsWithMin))]
+		public void Should_FillGaps_WithMin(IEnumerable<OrderedRange> ranges, int min,
+			IEnumerable<OrderedRange> expected)
+		{
+			// Arrange
+
+
+			// Act
+			var gaps = ranges.GetGaps(min: min);
+
+			// Assert
+			gaps.Should().BeEquivalentTo(expected);
+		}
+
+		static IEnumerable<object> FillGapsWithMin()
+		{
+			yield return new object[]
+			{
+				new[]
+				{
+					new OrderedRange(0, 5),
+					new OrderedRange(7, 9),
+				},
+				0,
+				new[]
+				{
+					new OrderedRange(5, 7),
+				}
+			};
+			yield return new object[]
+			{
+				new[]
+				{
+					new OrderedRange(7, 9),
+				},
+				0,
+				new[]
+				{
+					new OrderedRange(0, 7),
 				}
 			};
 		}

@@ -65,12 +65,22 @@ namespace Wims.Ui.Controls
 			return results;
 		}
 
-		public static IEnumerable<OrderedRange> GetGaps(this IEnumerable<OrderedRange> @this, int? max = null)
+		public static IEnumerable<OrderedRange> GetGaps(this IEnumerable<OrderedRange> @this, int? min = 0, int? max = null)
 		{
 			var ranges = @this.ToList();
 			var gaps = ranges.Zip(ranges.Skip(1))
 				.Select(pair => new OrderedRange(pair.First.End, pair.Second.Start))
 				.ToList();
+
+			if (min.HasValue)
+			{
+				var start = ranges.FirstOrDefault()?.Start;
+				if (min.Value < start)
+				{
+					var firstGap = new OrderedRange(min.Value, start.Value);
+					gaps.Insert(0, firstGap);
+				}
+			}
 
 			if (max.HasValue)
 			{
