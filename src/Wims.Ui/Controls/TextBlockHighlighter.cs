@@ -141,16 +141,15 @@ namespace Wims.Ui.Controls
 			var brush = GetHighlightBrush(tb);
 			if (brush == null) return;
 
-			var ranges = GetRanges(tb);
+			var ranges = GetRanges(tb).ToList();
 			if (ranges?.Count == 0)
 			{
 				tb.Inlines.Add(new Run(text));
 				return;
 			}
 
-			var highlights = GetRanges(d).ToList();
-			var gaps = highlights.GetGaps(text.Length).ToList();
-			var runs = highlights.Select(r => new {range = r, highlight = true})
+			var gaps = ranges.GetGaps(text.Length).ToList();
+			var runs = ranges.Select(r => new {range = r, highlight = true})
 				.Concat(gaps.Select(r => new {range = r, highlight = false}))
 				// todo: will this be too slow?
 				.OrderBy(item => item.range.Start)
