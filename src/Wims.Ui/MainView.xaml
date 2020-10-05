@@ -8,6 +8,7 @@
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   xmlns:requests="clr-namespace:Wims.Ui.Requests"
                    xmlns:rx="http://reactiveui.net"
                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                    xmlns:tb="http://www.hardcodet.net/taskbar"
@@ -145,7 +146,7 @@
 			              MouseDown="OnDrag">
 				<ListBox x:Name="Results">
 					<ListBox.ItemTemplate>
-						<DataTemplate DataType="{x:Type dto:ShortcutDto}">
+						<DataTemplate DataType="{x:Type requests:SearchResultDto}">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
@@ -155,16 +156,23 @@
 								       Width="24"
 								       Height="24"
 								       Margin="0,0,16,0"
-								       Source="{Binding Context.Icon, Converter={local:StringToImageSourceConverter}}" />
+								       Source="{Binding Shortcut.Context.Icon, Converter={local:StringToImageSourceConverter}}" />
 								<StackPanel Grid.Column="1">
-									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
+									<TextBlock controls:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
+									           controls:TextBlockHighlighter.Text="{Binding Path=Shortcut.Description}"
+									           FontWeight="Normal"
+									           Style="{StaticResource MaterialDesignBody1TextBlock}">
+										<controls:TextBlockHighlighter.HighlightBrush>
+											<SolidColorBrush Color="{StaticResource IndigoAccent100}" />
+										</controls:TextBlockHighlighter.HighlightBrush>
+									</TextBlock>
 									<TextBlock FontFamily="{StaticResource RobotoMono}"
 									           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-									           Text="{Binding Path=Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
+									           Text="{Binding Path=Shortcut.Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
 									<TextBlock FontFamily="{StaticResource RobotoMono}"
 									           Opacity="0.5"
 									           Style="{StaticResource MaterialDesignOverlineTextBlock}"
-									           Text="{Binding Path=.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
+									           Text="{Binding Path=.Shortcut.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
 								</StackPanel>
 							</Grid>
 
