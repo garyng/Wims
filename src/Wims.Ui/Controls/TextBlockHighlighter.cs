@@ -133,6 +133,7 @@ namespace Wims.Ui.Controls
 		private static void UpdateHighlight(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (!(d is TextBlock tb)) return;
+			tb.Inlines?.Clear();
 
 			var text = GetText(tb);
 			if (string.IsNullOrEmpty(text)) return;
