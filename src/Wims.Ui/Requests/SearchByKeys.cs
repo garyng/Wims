@@ -23,7 +23,7 @@ namespace Wims.Ui.Requests
 			return FuzzySharp.Process.ExtractTop(new ShortcutDto
 				{
 					Sequence = request.Query
-				}, request.Shortcuts, s => s.Sequence.ToString(), limit: 10, cutoff: 60)
+				}, request.Shortcuts, s => s.Sequence.ToString().ToLowerInvariant(), limit: 10, cutoff: 60)
 				.Select(r => r.Value)
 				.ToList();
 		}
