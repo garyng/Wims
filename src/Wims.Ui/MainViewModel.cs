@@ -32,9 +32,9 @@ namespace Wims.Ui
 		[Reactive] public string TextQuery { get; set; }
 		[Reactive] public SequenceDto KeysQuery { get; set; }
 
-		private ReadOnlyObservableCollection<SearchResultDto> _results;
+		private ReadOnlyObservableCollection<ShortcutDto> _results;
 
-		public ReadOnlyObservableCollection<SearchResultDto> Results
+		public ReadOnlyObservableCollection<ShortcutDto> Results
 		{
 			get => _results;
 			set => _results = value;
@@ -91,7 +91,7 @@ namespace Wims.Ui
 				.ToPropertyEx(this, vm => vm.IsKeysQuery);
 
 
-			var results = new SourceList<SearchResultDto>();
+			var results = new SourceList<ShortcutDto>();
 
 			results.Connect()
 				.ObserveOn(_schedulers.MainThread)
@@ -121,9 +121,9 @@ namespace Wims.Ui
 				.Subscribe();
 		}
 
-		private IObservable<IRequest<IList<SearchResultDto>>> Search<TRet>(
+		private IObservable<IRequest<IList<ShortcutDto>>> Search<TRet>(
 			Expression<Func<MainViewModel, TRet>> queryProperty,
-			Func<TRet, IList<ShortcutDto>, IRequest<IList<SearchResultDto>>> requestFunc, QueryModes mode)
+			Func<TRet, IList<ShortcutDto>, IRequest<IList<ShortcutDto>>> requestFunc, QueryModes mode)
 		{
 			var modes = this.WhenAnyValue(vm => vm.QueryMode);
 

@@ -17,7 +17,6 @@
 				                                 SecondaryColor="#ff4081" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Grey.Named.Primary.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/materialdesigncolor.Indigo.Named.Accent.xaml" />
 
 				<ResourceDictionary Source="pack://application:,,,/Controls/KeysRecorder/KeysRecorder.Styles.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/GaryNg.Utils.Wpf;component/Controls/CollectionController.Styles.xaml" />
