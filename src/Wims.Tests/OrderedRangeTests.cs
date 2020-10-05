@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using Wims.Ui.Controls;
+using Wims.Ui.Controls.Highlighter;
 
 namespace Wims.Tests
 {
