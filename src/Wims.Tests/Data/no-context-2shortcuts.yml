@@ -1,0 +1,8 @@
+shortcuts:
+  "Global Command 1":
+    sequence:
+      - Ctrl + Shift + P
+
+  "Global Command 2":
+    sequence:
+      - Ctrl + Alt + P

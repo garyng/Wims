@@ -4,6 +4,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Wims.Core.Models;
 using Wims.Ui.Utils;
@@ -21,10 +22,12 @@ namespace Wims.Ui.Requests
 		: IRequestHandler<LoadRawShortcutsFromFiles, IList<ShortcutsRo>>
 	{
 		private readonly IFileSystem _fs;
+		private readonly IValidator<ShortcutsRo> _validator;
 
-		public LoadRawShortcutsFromFilesRequestHandler(IFileSystem fs)
+		public LoadRawShortcutsFromFilesRequestHandler(IFileSystem fs, IValidator<ShortcutsRo> validator)
 		{
 			_fs = fs;
+			_validator = validator;
 		}
 
 		public async Task<IList<ShortcutsRo>> Handle(LoadRawShortcutsFromFiles request,
@@ -38,15 +41,17 @@ namespace Wims.Ui.Requests
 
 			return await _fs.Directory.EnumerateFiles(sourceDir, "*.yml", SearchOption.AllDirectories)
 				.ToAsyncEnumerable()
-				.SelectAwait(async path =>
+				.SelectAwait(async path => new {path, content = await _fs.File.ReadAllTextAsync(path)})
+				.Where(item => !string.IsNullOrWhiteSpace(item.content))
+				.Select(item =>
 				{
-					var content = await _fs.File.ReadAllTextAsync(path);
-					var obj = d.Deserialize<ShortcutsRo>(content);
-					obj.Path = path;
+					var obj = d.Deserialize<ShortcutsRo>(item.content);
+					obj.Path = item.path;
+					_validator.ValidateAndThrow(obj);
 					return obj;
 				})
+				.Where(s => s.Contexts != null || s.Shortcuts != null)
 				.ToListAsync();
 		}
 	}
-
 }

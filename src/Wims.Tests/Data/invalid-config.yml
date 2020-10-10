@@ -1,0 +1,14 @@
+contexts:
+    "vs":
+    "vscode":
+        icon: 
+        match:
+
+shortcuts:
+  "Global Command 1":
+    context: "vscode"
+    sequence:
+
+  "Global Command 2":
+    sequence:
+      - Ctrl + Alt + P

@@ -9,6 +9,10 @@ namespace Wims.Tests
 		public static string OneContext1Shortcut() => "1context-1shortcut.yml".Load();
 		public static string TwoContext2Shortcuts() => "2context-2shortcuts.yml".Load();
 
+		public static string NoContext() => "no-context-2shortcuts.yml".Load();
+		public static string ZeroContext0Shortcut() => "0context-0shortcut.yml".Load();
+		public static string InvalidConfig() => "invalid-config.yml".Load();
+
 		private static string Load(this string filename)
 		{
 			var ns = typeof(IDataMarker).Namespace;
