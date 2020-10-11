@@ -2,6 +2,7 @@
 using System.IO.Abstractions;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using Wims.Ui.Profiles;
 using Wims.Ui.Requests;
+using Wims.Ui.Validators;
 
 namespace Wims.Ui
 {
@@ -23,6 +25,7 @@ namespace Wims.Ui
 
 			services.AddMediatR(typeof(IMediatorMarker));
 			services.AddAutoMapper(typeof(IProfileMarker));
+			services.AddValidatorsFromAssembly(typeof(IValidatorsMarker).Assembly);
 
 			services.AddSingleton<ISchedulers, Schedulers>();
 			services.AddSingleton<MainViewModel>();
