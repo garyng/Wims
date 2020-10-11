@@ -44,7 +44,7 @@ namespace Wims.Tests
 			var match = p.IsMatch(input);
 
 			// Assert
-			match.Should().BeTrue();
+			match.Should().Be(expected);
 		}
 
 		[TestCase("abc", "abc", true)]
