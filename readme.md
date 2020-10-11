@@ -42,6 +42,14 @@ directory: shortcuts
 
 - `directory` specifies the directory that contains the [shortcuts file](#shortcuts-file).
 
+Order of configuration precedence:
+
+1. `wims.yml` at home directory
+1. `wims.yml` at the same directory as the app's exe
+
+The last loaded key wins.
+
+
 ## Shortcuts file
 
 - A shortcut file is a `yaml` file made up of 2 main sections:
