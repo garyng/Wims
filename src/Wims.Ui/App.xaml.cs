@@ -27,7 +27,15 @@ namespace Wims.Ui
 		{
 			_bootstrapper = new Bootstrapper();
 			_host = Host.CreateDefaultBuilder()
-				.ConfigureAppConfiguration((context, config) => { config.AddYamlFile("wims.yml", true, false); })
+				.ConfigureAppConfiguration((context, config) =>
+				{
+					var homeDir = Environment.OSVersion.Platform == PlatformID.Win32NT
+						? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
+						: Environment.GetEnvironmentVariable("HOME");
+
+					config.AddYamlFile(Path.Join(homeDir, "wims.yml"), true, false);
+					config.AddYamlFile("wims.yml", true, false);
+				})
 				.ConfigureServices((context, services) =>
 				{
 					var config = context.Configuration.Get<WimsConfig>();

@@ -80,8 +80,6 @@ namespace Wims.Ui
 				.ToPropertyEx(this, vm => vm.Context);
 
 
-			// todo: if user request not to show then dont show?
-
 			this.WhenAnyValue(vm => vm.QueryMode)
 				.Select(q => q == QueryModes.Text)
 				.ToPropertyEx(this, vm => vm.IsTextQuery);
