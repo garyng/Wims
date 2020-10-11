@@ -188,7 +188,7 @@ namespace Wims.Tests
 		}
 
 		[Test]
-		public async Task Should_ThrowOnInvalidConfig()
+		public void Should_ThrowOnInvalidConfig()
 		{
 			var fs = new MockFileSystem(new Dictionary<string, MockFileData>
 			{

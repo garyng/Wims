@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using GaryNg.Utils.Enumerable;
 using MediatR;
 using Wims.Core.Dto;
 using Wims.Core.Exceptions;
@@ -30,8 +31,10 @@ namespace Wims.Ui.Requests
 
 		public async Task<ShortcutsDto> Handle(TransformRawShortcutsToDto request, CancellationToken cancellationToken)
 		{
-			var dupContexts = request.Shortcuts
-				.SelectMany(s => s.Contexts)
+			var shortcutsRo = request.Shortcuts.ToList();
+
+			var dupContexts = shortcutsRo
+				.SelectManyNotNull(s => s.Contexts)
 				.GroupBy(c => c.Key)
 				.Where(g => g.Count() > 1)
 				.Select(g => g.Key)
@@ -39,7 +42,8 @@ namespace Wims.Ui.Requests
 
 			if (dupContexts?.Any() == true) throw new DuplicatedContextException(dupContexts);
 
-			var contexts = request.Shortcuts
+			var contexts = shortcutsRo
+				.NotNullBy(s => s.Contexts)
 				.SelectMany(shortcut => shortcut.Contexts
 					.Select(c => (path: shortcut.Path, context: c)))
 				.Select(item =>
@@ -59,16 +63,16 @@ namespace Wims.Ui.Requests
 				})
 				.ToDictionary(c => c.Name, c => c);
 
-			var missingContexts = request.Shortcuts
-				.SelectMany(s => s.Shortcuts)
-				.Select(s => s.Value.Context)
+			var missingContexts = shortcutsRo
+				.SelectManyNotNull(s => s.Shortcuts, s => s.Values)
+				.SelectNotNull(s => s.Context)
 				.Where(c => !contexts.ContainsKey(c))
 				.ToList();
 
 			if (missingContexts.Any()) throw new MissingContextException(missingContexts);
 
-			var shortcuts = request.Shortcuts
-				.SelectMany(shortcut => shortcut.Shortcuts)
+			var shortcutsDto = shortcutsRo
+				.SelectManyNotNull(shortcut => shortcut.Shortcuts)
 				.Select(kv =>
 				{
 					var shortcut = kv.Value;
@@ -82,11 +86,11 @@ namespace Wims.Ui.Requests
 					};
 				}).ToList();
 
-
+			
 			return new ShortcutsDto
 			{
 				Contexts = contexts,
-				Shortcuts = shortcuts
+				Shortcuts = shortcutsDto
 			};
 		}
 	}

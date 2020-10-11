@@ -304,5 +304,28 @@ namespace Wims.Tests
 				.Select(c => c.Icon)
 				.Should().ContainInOrder(@"c:\root\folder\vs.png", @"c:\another dir\vscode.png");
 		}
+
+		[Test]
+		public async Task Should_HandleNoDefinedContextsOrShortcuts()
+		{
+			// Arrange
+			var shortcuts = new[]
+			{
+				new ShortcutsRo()
+			};
+			var handler = _auto.Resolve<TransformRawShortcutsToDtoRequestHandler>();
+			var request = new TransformRawShortcutsToDto
+			{
+				Shortcuts = shortcuts
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+
+			// Assert
+			result.Contexts.Should().HaveCount(0);
+			result.Shortcuts.Should().HaveCount(0);
+		}
 	}
 }
