@@ -83,6 +83,7 @@ namespace Wims.Tests
 		}
 
 		[Test]
+		[Ignore("Nulls are handled")]
 		public async Task Should_ThrowOnNull()
 		{
 			// Arrange
@@ -145,79 +146,112 @@ namespace Wims.Tests
 		{
 			return new ShortcutsRo
 			{
-				Contexts = new Dictionary<string, ContextRo>
-				{
-					{
-						"vs", new ContextRo
-						{
-							Icon = "vs.png",
-							Match = new MatchRo
-							{
-								Exe = "devenv.exe"
-							}
-						}
-					}
-				},
+				Contexts = new Dictionary<string, ContextRo>(new[] {MakeVsContext()}),
 				Path = @"c:\root\shortcuts\vs.yml",
-				Shortcuts = new Dictionary<string, ShortcutRo>
+				Shortcuts = new Dictionary<string, ShortcutRo>(new[] {MakeVsShortcut()})
+			};
+		}
+
+		private KeyValuePair<string, ContextRo> MakeVsContext()
+		{
+			return new KeyValuePair<string, ContextRo>(
+				"vs", new ContextRo
 				{
+					Icon = "vs.png",
+					Match = new MatchRo
 					{
-						"Reformat code", new ShortcutRo
+						Exe = "devenv.exe"
+					}
+				}
+			);
+		}
+
+		private KeyValuePair<string, ShortcutRo> MakeVsShortcut()
+		{
+			return new KeyValuePair<string, ShortcutRo>("Reformat code", new ShortcutRo
+				{
+					Context = "vs",
+					Sequence = new SequenceRo
+					{
+						new ChordRo
 						{
-							Context = "vs",
-							Sequence = new SequenceRo
-							{
-								new ChordRo
-								{
-									Keys = new[] {"Ctrl", "Shift", "K"},
-								},
-								new ChordRo
-								{
-									Keys = new[] {"Ctrl", "Shift", "F"},
-								}
-							}
+							Keys = new[] {"Ctrl", "Shift", "K"},
+						},
+						new ChordRo
+						{
+							Keys = new[] {"Ctrl", "Shift", "F"},
 						}
 					}
 				}
-			};
+			);
 		}
 
 		private ShortcutsRo MakeVsCode()
 		{
 			return new ShortcutsRo
 			{
-				Contexts = new Dictionary<string, ContextRo>
-				{
-					{
-						"vscode", new ContextRo
-						{
-							Icon = "vscode.png",
-							Match = new MatchRo
-							{
-								Exe = "vscode.exe"
-							}
-						}
-					}
-				},
+				Contexts = new Dictionary<string, ContextRo>(new[] {MakeVscodeContext()}),
 				Path = @"c:\root\shortcuts\vscode.yml",
-				Shortcuts = new Dictionary<string, ShortcutRo>
+				Shortcuts = new Dictionary<string, ShortcutRo>(new[] {MakeVscodeShortcut()})
+			};
+		}
+
+		private KeyValuePair<string, ContextRo> MakeVscodeContext()
+		{
+			return new KeyValuePair<string, ContextRo>("vscode", new ContextRo
+			{
+				Icon = "vscode.png",
+				Match = new MatchRo
 				{
+					Exe = "vscode.exe"
+				}
+			});
+		}
+
+		private KeyValuePair<string, ShortcutRo> MakeVscodeShortcut()
+		{
+			return new KeyValuePair<string, ShortcutRo>("Reformat code", new ShortcutRo
+				{
+					Context = "vscode",
+					Sequence = new SequenceRo
 					{
-						"Reformat code", new ShortcutRo
+						new ChordRo
 						{
-							Context = "vscode",
-							Sequence = new SequenceRo
-							{
-								new ChordRo
-								{
-									Keys = new[] {"Ctrl", "Alt", "F"},
-								}
-							}
+							Keys = new[] {"Ctrl", "Alt", "F"},
 						}
 					}
 				}
+			);
+		}
+
+		private ShortcutsRo MakeGlobal()
+		{
+			return new ShortcutsRo
+			{
+				Path = @"c:\root\shortcuts\vs.yml",
+				Shortcuts = new Dictionary<string, ShortcutRo>(new[] {MakeGlobalShortcut()})
 			};
 		}
+
+		private KeyValuePair<string, ShortcutRo> MakeGlobalShortcut()
+		{
+			return new KeyValuePair<string, ShortcutRo>("Global 1", new ShortcutRo
+				{
+					Sequence = new SequenceRo
+					{
+						new ChordRo
+						{
+							Keys = new[] {"Ctrl", "Shift", "K"},
+						},
+						new ChordRo
+						{
+							Keys = new[] {"Ctrl", "Shift", "F"},
+						}
+					}
+				}
+			);
+		}
+
 
 		[Test]
 		public async Task Should_AssignNameOfContext()
@@ -326,6 +360,77 @@ namespace Wims.Tests
 			// Assert
 			result.Contexts.Should().HaveCount(0);
 			result.Shortcuts.Should().HaveCount(0);
+		}
+
+		[Test]
+		public async Task Should_Handle_NullContexts()
+		{
+			// Arrange
+			var shortcuts = new[]
+			{
+				MakeGlobal()
+			};
+
+			var handler = _auto.Resolve<TransformRawShortcutsToDtoRequestHandler>();
+			var request = new TransformRawShortcutsToDto
+			{
+				Shortcuts = shortcuts
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+			// Assert
+			result.Contexts.Should().BeEmpty();
+		}
+
+		[Test]
+		public async Task Should_Handle_NullShortcuts()
+		{
+			// Arrange
+			var shortcuts = new[]
+			{
+				new ShortcutsRo
+				{
+					Contexts = new Dictionary<string, ContextRo>(new[] {MakeVsContext(), MakeVscodeContext()})
+				}
+			};
+
+			var handler = _auto.Resolve<TransformRawShortcutsToDtoRequestHandler>();
+			var request = new TransformRawShortcutsToDto
+			{
+				Shortcuts = shortcuts
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+			// Assert
+			result.Shortcuts.Should().BeEmpty();
+		}
+
+		[Test]
+		public async Task Should_HandleNullContextInShortcut()
+		{
+			// Arrange
+			var shortcuts = new[]
+			{
+				MakeGlobal()
+			};
+
+			var handler = _auto.Resolve<TransformRawShortcutsToDtoRequestHandler>();
+			var request = new TransformRawShortcutsToDto
+			{
+				Shortcuts = shortcuts
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+			// Assert
+			result.Contexts.Should().HaveCount(0);
+			result.Shortcuts.Should().HaveCount(1);
+			result.Shortcuts[0].Context.Should().BeNull();
 		}
 	}
 }

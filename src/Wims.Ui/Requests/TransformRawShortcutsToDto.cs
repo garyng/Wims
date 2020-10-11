@@ -42,7 +42,7 @@ namespace Wims.Ui.Requests
 
 			if (dupContexts?.Any() == true) throw new DuplicatedContextException(dupContexts);
 
-			var contexts = shortcutsRo
+			var contextsDto = shortcutsRo
 				.NotNullBy(s => s.Contexts)
 				.SelectMany(shortcut => shortcut.Contexts
 					.Select(c => (path: shortcut.Path, context: c)))
@@ -66,7 +66,7 @@ namespace Wims.Ui.Requests
 			var missingContexts = shortcutsRo
 				.SelectManyNotNull(s => s.Shortcuts, s => s.Values)
 				.SelectNotNull(s => s.Context)
-				.Where(c => !contexts.ContainsKey(c))
+				.Where(c => !contextsDto.ContainsKey(c))
 				.ToList();
 
 			if (missingContexts.Any()) throw new MissingContextException(missingContexts);
@@ -81,7 +81,7 @@ namespace Wims.Ui.Requests
 					return new ShortcutDto
 					{
 						Description = desc,
-						Context = contexts[shortcut.Context],
+						Context = shortcut.Context == null ? null : contextsDto[shortcut.Context],
 						Sequence = _mapper.Map<SequenceDto>(shortcut.Sequence)
 					};
 				}).ToList();
@@ -89,7 +89,7 @@ namespace Wims.Ui.Requests
 			
 			return new ShortcutsDto
 			{
-				Contexts = contexts,
+				Contexts = contextsDto,
 				Shortcuts = shortcutsDto
 			};
 		}
