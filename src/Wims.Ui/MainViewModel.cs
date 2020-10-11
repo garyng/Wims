@@ -71,8 +71,8 @@ namespace Wims.Ui
 			});
 
 
-			// todo: should only take the first match?
-			_context.Context
+			// find the first context that matches the active context
+			_context.ActiveContext
 				.Log(this)
 				.CombineLatest(LoadShortcuts, (_, s) => s)
 				.Select(shortcuts => shortcuts.Contexts.Values.Where(c => _context.Match(c.Match)))

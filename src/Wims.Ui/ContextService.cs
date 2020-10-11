@@ -72,12 +72,12 @@ namespace Wims.Ui
 	{
 		private BehaviorSubject<ActiveContext> _context;
 
-		public IObservable<ActiveContext> Context { get; set; }
+		public IObservable<ActiveContext> ActiveContext { get; set; }
 
 		public ContextService()
 		{
 			_context = new BehaviorSubject<ActiveContext>(null);
-			Context = _context.AsObservable();
+			ActiveContext = _context.AsObservable();
 		}
 
 		/// <summary>
@@ -98,9 +98,9 @@ namespace Wims.Ui
 
 		public bool Match(MatchDto match)
 		{
-			var current = _context.Value;
-			if (current == null) return false;
-			return match.IsMatch(current.Class, current.Exe);
+			var active = _context.Value;
+			if (active == null) return false;
+			return match.IsMatch(active.Class, active.Exe);
 		}
 	}
 }
