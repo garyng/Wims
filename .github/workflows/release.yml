@@ -4,6 +4,7 @@ on: push
 env:
   archive-name: Wims
   src-dir: ./src/
+  target-project: ./Wims.Ui/Wims.Ui.csproj
   out-dir: ./out/
   artifacts-dir: ./artifacts/
 
@@ -38,7 +39,7 @@ jobs:
         working-directory: ${{ env.src-dir }}
 
       - name: Publish
-        run: dotnet publish -o "../${{ env.out-dir }}" -c Release --self-contained false --no-restore
+        run: dotnet publish -o "../${{ env.out-dir }}" -c Release --self-contained false --no-restore ${{ env.target-project }}
         working-directory: ${{ env.src-dir }}
 
       - name: Versioning
