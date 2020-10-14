@@ -56,13 +56,13 @@ jobs:
   
       - name: Zip
         run: |
-          Compress-Archive -Path ${{ env.out-dir }}/* -DestinationPath ${{ steps.vars.filepath }}
+          Compress-Archive -Path ${{ env.out-dir }}/* -DestinationPath ${{ steps.vars.outputs.filepath }}
         shell: pwsh
 
       - name: Hash
         run: |
-          $hash = $(Get-FileHash ${{ steps.vars.filepath }}).Hash
-          $hash | Set-Content ${{ steps.vars.filepath }}.sha256
+          $hash = $(Get-FileHash ${{ steps.vars.outputs.filepath }}).Hash
+          $hash | Set-Content ${{ steps.vars.outputs.filepath }}.sha256
         shell: pwsh
 
       # - name: Package
