@@ -18,21 +18,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Fetch all history for all tags and branches
-        run: |
-          git config remote.origin.url https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git fetch --prune --unshallow
-
+          fetch-depth: 0
+      
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.x
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.3
+        uses: gittools/actions/gitversion/setup@v0.9.4
         with:
-          versionSpec: "5.2.x"
+          versionSpec: "5.3.x"
 
       - name: Install dependencies
         run: dotnet restore
@@ -44,7 +40,7 @@ jobs:
 
       - name: Versioning
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.3
+        uses: gittools/actions/gitversion/execute@v0.9.4
 
       - name: Create directory
         run: |
