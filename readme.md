@@ -29,14 +29,8 @@ Removing context will list all shortcuts.
 # Installation
 
 1. Install [`scoop`](https://scoop.sh/)
-1. Add `scoop-garyng` bucket: 
-```
-scoop bucket add garyng https://github.com/garyng/scoop-garyng.git
-```
-1. Install Wims: 
-```
-scoop install Wims
-```
+1. Add `scoop-garyng` bucket with `scoop bucket add garyng https://github.com/garyng/scoop-garyng.git`
+1. Install with `scoop install Wims`
 
 # Usage
 
