@@ -40,17 +40,25 @@ A `yaml` file for configuring the app's behavior.
 
 ```yaml
 directory: shortcuts
+activation: LWin + Escape
+autoHide: true
+topmost: true
 ```
 
-- `directory` specifies the directory that contains the [shortcuts file](#shortcuts-file).
+- `directory`: the directory that contains the [shortcuts file](#shortcuts-file).
+- `activation`: the shortcut key to activate the main window (see [Keys enum](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=netcore-3.1) for available keys)
+  - Default value: `LWin + Escape`
+- `autoHide`: automatically hides the window when focus is lost
+  - Default value: `false`
+- `topmost`: keep the window always on top
+  - Default value: `false`
 
 Order of configuration precedence:
 
 1. `wims.yml` at home directory
 1. `wims.yml` at the same directory as the app's exe
 
-The last loaded key wins.
-
+The last loaded config key wins.
 
 ## Shortcuts file
 
@@ -72,11 +80,11 @@ contexts:
       exe: devenv.exe
 ```
 
-- `"vs"` is the name of the context, which can be used by a `shortcut`.
-- `icon` contains the path to an image. `svg` is also supported.
-- `match` contains the conditions for determining whether the context is active.
-  - `exe` will match the process name of the current active window. Normally using `exe` is sufficient enough.
-  - `class` will match the class name of the current active window.
+- `"vs"`: the name of the context, which can be used by a `shortcut`.
+- `icon`: the path to an image. `svg` is also supported.
+- `match`: the conditions for determining whether the context is active.
+  - `exe`: match the process name of the current active window. Normally using `exe` is sufficient enough.
+  - `class`: match the class name of the current active window.
   - Regex can be used in both `exe` and `class`, just wrap them inside `//`, eg: `/*.exe/`
 
 Here is another `context` that matches a Visual Studio Code window:
@@ -107,11 +115,11 @@ shortcuts:
       - LeftArrow
 ```
 
-- `"Navigate backward"` is the name of the shortcut.
+- `"Navigate backward"`: the name of the shortcut.
   - This is used for matching the search query when [searching with text](#search-by-text).
-- `context` is the name of the [`context`](#contexts).
+- `context`: the name of the [`context`](#contexts).
   - If this is left empty, the shortcut is considered as "global", and will be active only when there is no active context.
-- `sequence` is a sequence of chords that are pressed subsequently, eg: `Ctrl + K, Ctrl + F`
+- `sequence`: a sequence of chords that are pressed subsequently, eg: `Ctrl + K, Ctrl + F`
   - A chord is a sequence of keys that are pressed at the same time, eg: `Ctrl + Shift + P`
   - This is used for matching the search query when [searching with keys](#search-by-keys).
 # Development
