@@ -54,6 +54,7 @@ namespace Wims.Ui
 		private void PreprocessConfig(WimsConfig config)
 		{
 			// todo: move this and rename this as SetDefaultConfig?
+			// todo: consolidate all defaults value in one place
 
 			config.Directory = string.IsNullOrEmpty(config.Directory)
 				? Directory.GetCurrentDirectory()
