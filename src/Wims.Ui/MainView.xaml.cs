@@ -90,6 +90,7 @@ namespace Wims.Ui
 				this.TrayIcon
 					.DisposeWith(d);
 
+				SetTopMost();
 				AutoFocusSearchBox(d);
 				AppHotKey(d);
 				HideOnBackspace(d);
@@ -97,20 +98,26 @@ namespace Wims.Ui
 			});
 		}
 
+		private void SetTopMost()
+		{
+			Topmost = ViewModel.Config.Topmost;
+		}
+
 		private void GlobalHotKey(CompositeDisposable d)
 		{
+			var hotkey = ViewModel.Config.Activation;
 			try
 			{
 				Hook.GlobalEvents()
 					.DisposeWith(d)
 					.OnCombination(new Dictionary<Combination, Action>
 					{
-						{Combination.TriggeredBy(Keys.Escape).With(Keys.LWin), ActivateWindow}
+						{Combination.FromString(hotkey), ActivateWindow}
 					});
 			}
 			catch (Exception e)
 			{
-				ViewModel.Error.OnError(e);
+				ViewModel.Error.OnError(new Exception("There is an error while registering hotkeys.", e));
 			}
 		}
 
@@ -200,8 +207,10 @@ namespace Wims.Ui
 
 		private void OnDeactivated(object? sender, EventArgs e)
 		{
-			// todo: config to show on launch
-			// Hide();
+			if (ViewModel?.Config.AutoHide == true)
+			{
+				Hide();
+			}
 		}
 	}
 }

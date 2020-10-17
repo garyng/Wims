@@ -53,9 +53,16 @@ namespace Wims.Ui
 
 		private void PreprocessConfig(WimsConfig config)
 		{
+			// todo: move this and rename this as SetDefaultConfig?
+
 			config.Directory = string.IsNullOrEmpty(config.Directory)
 				? Directory.GetCurrentDirectory()
 				: Path.GetFullPath(config.Directory);
+
+			config.Activation = string.IsNullOrEmpty(config.Activation)
+				? "LWin+Escape"
+				: config.Activation;
+
 		}
 
 		protected override async void OnStartup(StartupEventArgs e)

@@ -25,7 +25,6 @@
                    TextElement.FontSize="14"
                    TextElement.FontWeight="Medium"
                    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-                   Topmost="True"
                    WindowStartupLocation="CenterScreen"
                    WindowStyle="None"
                    mc:Ignorable="d">
