@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Wims.Ui.Utils
+namespace Wims.Ui.Converters
 {
 	public class ObjectIsEqualConverter : MarkupExtension, IValueConverter
 	{

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using ReactiveUI;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using Wims.Ui.Converters;
 using Wims.Ui.Profiles;
 using Wims.Ui.Requests;
 using Wims.Ui.Validators;

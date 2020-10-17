@@ -1,21 +1,16 @@
 ﻿<rx:ReactiveWindow x:Class="Wims.Ui.MainView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:controls="clr-namespace:Wims.Ui.Controls"
-                   xmlns:converters="clr-namespace:NKristek.Wpf.Converters;assembly=NKristek.Wpf.Converters"
+                   xmlns:converters="clr-namespace:Wims.Ui.Converters"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:dto="clr-namespace:Wims.Core.Dto;assembly=Wims.Core"
                    xmlns:highlighter="clr-namespace:Wims.Ui.Controls.Highlighter"
                    xmlns:kr="clr-namespace:Wims.Ui.Controls.KeysRecorder"
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-                   xmlns:requests="clr-namespace:Wims.Ui.Requests"
                    xmlns:rx="http://reactiveui.net"
-                   xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                    xmlns:tb="http://www.hardcodet.net/taskbar"
                    xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
-                   xmlns:utils1="clr-namespace:Wims.Ui.Utils"
                    xmlns:vo="clr-namespace:Wims.Ui.Vo"
                    x:Name="MainViewWindow"
                    Title="Wims"
@@ -157,25 +152,25 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0">
-									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={utils1:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Text}}"
+									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={converters:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Text}}"
 									           highlighter:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
 									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Description}"
 									           Style="{StaticResource MaterialDesignBody1TextBlock}" />
-									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={utils1:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Keys}}"
+									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={converters:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Keys}}"
 									           highlighter:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
-									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Sequence, Converter={utils1:SequenceDtoToStringConverter}}"
+									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Sequence, Converter={converters:SequenceDtoToStringConverter}}"
 									           FontFamily="{StaticResource RobotoMono}"
 									           Style="{StaticResource MaterialDesignCaptionTextBlock}" />
 									<TextBlock FontFamily="{StaticResource RobotoMono}"
 									           Opacity="0.5"
 									           Style="{StaticResource MaterialDesignOverlineTextBlock}"
-									           Text="{Binding Path=.Shortcut.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
+									           Text="{Binding Path=.Shortcut.Context.Name, Converter={converters:SequenceDtoToStringConverter}}" />
 								</StackPanel>
 								<Image Grid.Column="1"
 								       Width="24"
 								       Height="24"
 								       Opacity="0.5"
-								       Source="{Binding Shortcut.Context.Icon, Converter={local:StringToImageSourceConverter}}" />
+								       Source="{Binding Shortcut.Context.Icon, Converter={converters:StringToImageSourceConverter}}" />
 							</Grid>
 
 						</DataTemplate>

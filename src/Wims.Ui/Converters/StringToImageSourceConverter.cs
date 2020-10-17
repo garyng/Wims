@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SharpVectors.Converters;
 
-namespace Wims.Ui
+namespace Wims.Ui.Converters
 {
 	public class StringToImageSourceConverter : MarkupExtension, IValueConverter
 	{

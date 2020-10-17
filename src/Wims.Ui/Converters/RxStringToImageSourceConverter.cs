@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using ReactiveUI;
 using SharpVectors.Converters;
 
-namespace Wims.Ui
+namespace Wims.Ui.Converters
 {
 	public class RxStringToImageSourceConverter : IBindingTypeConverter
 	{

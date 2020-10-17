@@ -5,7 +5,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 
-namespace Wims.Ui.Utils
+namespace Wims.Ui.Converters
 {
 	/// <summary>
 	/// Converts a <see cref="PackIcon" /> to an DrawingImage.
