@@ -9,6 +9,19 @@ namespace Wims.Ui.Controls.Highlighter
 {
 	public class TextBlockHighlighter : DependencyObject
 	{
+		public static readonly DependencyProperty EnableProperty = DependencyProperty.RegisterAttached(
+			"Enable", typeof(bool), typeof(TextBlockHighlighter), new PropertyMetadata(true, UpdateHighlight));
+
+		public static void SetEnable(DependencyObject element, bool value)
+		{
+			element.SetValue(EnableProperty, value);
+		}
+
+		public static bool GetEnable(DependencyObject element)
+		{
+			return (bool) element.GetValue(EnableProperty);
+		}
+
 		public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
 			"Text", typeof(string), typeof(TextBlockHighlighter),
 			new PropertyMetadata(default(string), UpdateHighlight));
@@ -44,6 +57,13 @@ namespace Wims.Ui.Controls.Highlighter
 
 			var text = GetText(tb);
 			if (string.IsNullOrEmpty(text)) return;
+
+			var enabled = GetEnable(tb);
+			if (!enabled)
+			{
+				tb.Inlines.Add(new Run(text));
+				return;
+			}
 
 			var ranges = GetRanges(tb).ToList();
 			if (ranges?.Count == 0)
