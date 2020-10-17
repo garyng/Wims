@@ -47,7 +47,7 @@ namespace Wims.Ui.Controls.Highlighter
 
 		public static List<OrderedRange> GetRanges(DependencyObject element)
 		{
-			return (List<OrderedRange>)element.GetValue(RangesProperty);
+			return (List<OrderedRange>) element.GetValue(RangesProperty);
 		}
 
 		private static void UpdateHighlight(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -78,6 +78,7 @@ namespace Wims.Ui.Controls.Highlighter
 				// todo: will this be too slow?
 				.OrderBy(item => item.range.Start)
 				.ThenBy(item => item.range.End)
+				.Where(item => item.range.End <= text.Length)
 				.Select(item => new Run(text[item.range.Start..item.range.End])
 				{
 					TextDecorations = item.highlight ? TextDecorations.Underline : null
