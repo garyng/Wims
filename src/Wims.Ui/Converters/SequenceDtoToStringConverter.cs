@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using Wims.Core.Dto;
 
-namespace Wims.Ui.Utils
+namespace Wims.Ui.Converters
 {
 	public class SequenceDtoToStringConverter : MarkupExtension, IValueConverter
 	{

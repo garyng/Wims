@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Windows.Threading;
 using DynamicData;
 using MediatR;
 using ReactiveUI;
@@ -13,38 +14,52 @@ using ReactiveUI.Fody.Helpers;
 using Wims.Core.Dto;
 using Wims.Core.Models;
 using Wims.Ui.Requests;
+using Wims.Ui.Vo;
 using Void = GaryNg.Utils.Void.Void;
 
 namespace Wims.Ui
 {
 	public class MainViewModel : ViewModelBase
 	{
+		public WimsConfig Config { get; }
+		public IErrorHandler Error { get; }
 		private readonly ContextService _context;
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
 		public ReactiveCommand<Void, Void> RefreshContext { get; set; }
 		public ReactiveCommand<Void, Void> RemoveContext { get; set; }
 
-		[Reactive] public QueryModes QueryMode { get; set; }
+		[Reactive]
+		public QueryModes QueryMode { get; set; }
 
-		[ObservableAsProperty] public bool IsTextQuery { get; set; }
-		[ObservableAsProperty] public bool IsKeysQuery { get; set; }
+		[ObservableAsProperty]
+		public bool IsTextQuery { get; set; }
 
-		[Reactive] public string TextQuery { get; set; }
-		[Reactive] public SequenceDto KeysQuery { get; set; }
+		[ObservableAsProperty]
+		public bool IsKeysQuery { get; set; }
 
-		private ReadOnlyObservableCollection<ShortcutDto> _results;
+		[Reactive]
+		public string TextQuery { get; set; }
 
-		public ReadOnlyObservableCollection<ShortcutDto> Results
+		[Reactive]
+		public SequenceDto KeysQuery { get; set; }
+
+		private ReadOnlyObservableCollection<ResultVo> _results;
+
+		public ReadOnlyObservableCollection<ResultVo> Results
 		{
 			get => _results;
 			set => _results = value;
 		}
 
-		[ObservableAsProperty] public ContextDto Context { get; set; }
+		[ObservableAsProperty]
+		public ContextDto Context { get; set; }
 
-		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config, ContextService context) :
+		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config, ContextService context,
+			IErrorHandler error) :
 			base(schedulers, mediator)
 		{
+			Config = config;
+			Error = error;
 			_context = context;
 
 			LoadShortcuts = ReactiveCommand.CreateFromObservable<Void, ShortcutsDto>(_ => _mediator
@@ -53,6 +68,8 @@ namespace Wims.Ui
 					SourceDirectory = config.Directory
 				})
 				.ToObservable()
+				.Do(_ => { }, e => { error.OnError(e); })
+				.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
 				.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
 				{
 					Shortcuts = shortcuts
@@ -89,7 +106,7 @@ namespace Wims.Ui
 				.ToPropertyEx(this, vm => vm.IsKeysQuery);
 
 
-			var results = new SourceList<ShortcutDto>();
+			var results = new SourceList<ResultVo>();
 
 			results.Connect()
 				.ObserveOn(_schedulers.MainThread)
@@ -119,9 +136,9 @@ namespace Wims.Ui
 				.Subscribe();
 		}
 
-		private IObservable<IRequest<IList<ShortcutDto>>> Search<TRet>(
-			Expression<Func<MainViewModel, TRet>> queryProperty,
-			Func<TRet, IList<ShortcutDto>, IRequest<IList<ShortcutDto>>> requestFunc, QueryModes mode)
+		private IObservable<IRequest<IList<ResultVo>>> Search<TQuery>(
+			Expression<Func<MainViewModel, TQuery>> queryProperty,
+			Func<TQuery, IList<ShortcutDto>, IRequest<IList<ResultVo>>> requestFunc, QueryModes mode)
 		{
 			var modes = this.WhenAnyValue(vm => vm.QueryMode);
 

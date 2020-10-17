@@ -5,7 +5,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Wims.Ui.Utils
+namespace Wims.Ui.Converters
 {
 	public class ChordRoConverter : IYamlTypeConverter
 	{

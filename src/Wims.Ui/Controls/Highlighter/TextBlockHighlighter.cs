@@ -4,24 +4,22 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media;
 
 namespace Wims.Ui.Controls.Highlighter
 {
 	public class TextBlockHighlighter : DependencyObject
 	{
-		public static readonly DependencyProperty HighlightBrushProperty = DependencyProperty.RegisterAttached(
-			"HighlightBrush", typeof(Brush), typeof(TextBlockHighlighter),
-			new PropertyMetadata(default(Brush), UpdateHighlight));
+		public static readonly DependencyProperty EnableProperty = DependencyProperty.RegisterAttached(
+			"Enable", typeof(bool), typeof(TextBlockHighlighter), new PropertyMetadata(true, UpdateHighlight));
 
-		public static void SetHighlightBrush(DependencyObject element, Brush value)
+		public static void SetEnable(DependencyObject element, bool value)
 		{
-			element.SetValue(HighlightBrushProperty, value);
+			element.SetValue(EnableProperty, value);
 		}
 
-		public static Brush GetHighlightBrush(DependencyObject element)
+		public static bool GetEnable(DependencyObject element)
 		{
-			return (Brush) element.GetValue(HighlightBrushProperty);
+			return (bool) element.GetValue(EnableProperty);
 		}
 
 		public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
@@ -49,7 +47,7 @@ namespace Wims.Ui.Controls.Highlighter
 
 		public static List<OrderedRange> GetRanges(DependencyObject element)
 		{
-			return (List<OrderedRange>)element.GetValue(RangesProperty);
+			return (List<OrderedRange>) element.GetValue(RangesProperty);
 		}
 
 		private static void UpdateHighlight(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -60,8 +58,12 @@ namespace Wims.Ui.Controls.Highlighter
 			var text = GetText(tb);
 			if (string.IsNullOrEmpty(text)) return;
 
-			var brush = GetHighlightBrush(tb);
-			if (brush == null) return;
+			var enabled = GetEnable(tb);
+			if (!enabled)
+			{
+				tb.Inlines.Add(new Run(text));
+				return;
+			}
 
 			var ranges = GetRanges(tb).ToList();
 			if (ranges?.Count == 0)
@@ -76,11 +78,10 @@ namespace Wims.Ui.Controls.Highlighter
 				// todo: will this be too slow?
 				.OrderBy(item => item.range.Start)
 				.ThenBy(item => item.range.End)
+				.Where(item => item.range.End <= text.Length)
 				.Select(item => new Run(text[item.range.Start..item.range.End])
 				{
-					// FontWeight = item.highlight ? FontWeights.Heavy : tb.FontWeight,
-					Foreground = item.highlight ? brush : tb.Foreground
-					// Background = r.Highlight ? Brushes.Yellow : tb.Background
+					TextDecorations = item.highlight ? TextDecorations.Underline : null
 				});
 
 			tb.Inlines.AddRange(runs);
