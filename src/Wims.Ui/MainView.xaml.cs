@@ -99,12 +99,19 @@ namespace Wims.Ui
 
 		private void GlobalHotKey(CompositeDisposable d)
 		{
-			Hook.GlobalEvents()
-				.DisposeWith(d)
-				.OnCombination(new Dictionary<Combination, Action>
-				{
-					{Combination.TriggeredBy(Keys.Escape).With(Keys.LWin), ActivateWindow}
-				});
+			try
+			{
+				Hook.GlobalEvents()
+					.DisposeWith(d)
+					.OnCombination(new Dictionary<Combination, Action>
+					{
+						{Combination.TriggeredBy(Keys.Escape).With(Keys.LWin), ActivateWindow}
+					});
+			}
+			catch (Exception e)
+			{
+				ViewModel.Error.OnError(e);
+			}
 		}
 
 		private void AppHotKey(CompositeDisposable d)
@@ -194,7 +201,7 @@ namespace Wims.Ui
 		private void OnDeactivated(object? sender, EventArgs e)
 		{
 			// todo: config to show on launch
-			Hide();
+			// Hide();
 		}
 	}
 }

@@ -32,6 +32,7 @@ namespace Wims.Ui
 			services.AddSingleton<IFileSystem>(new FileSystem());
 
 			services.AddSingleton<ContextService>();
+			services.AddSingleton<IErrorHandler, ErrorHandler>();
 
 
 			//services.Scan(scan => scan

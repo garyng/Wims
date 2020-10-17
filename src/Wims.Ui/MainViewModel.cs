@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Windows.Threading;
 using DynamicData;
 using MediatR;
 using ReactiveUI;
@@ -19,18 +21,27 @@ namespace Wims.Ui
 {
 	public class MainViewModel : ViewModelBase
 	{
+		public WimsConfig Config { get; }
+		public IErrorHandler Error { get; }
 		private readonly ContextService _context;
 		public ReactiveCommand<Void, ShortcutsDto> LoadShortcuts { get; set; }
 		public ReactiveCommand<Void, Void> RefreshContext { get; set; }
 		public ReactiveCommand<Void, Void> RemoveContext { get; set; }
 
-		[Reactive] public QueryModes QueryMode { get; set; }
+		[Reactive]
+		public QueryModes QueryMode { get; set; }
 
-		[ObservableAsProperty] public bool IsTextQuery { get; set; }
-		[ObservableAsProperty] public bool IsKeysQuery { get; set; }
+		[ObservableAsProperty]
+		public bool IsTextQuery { get; set; }
 
-		[Reactive] public string TextQuery { get; set; }
-		[Reactive] public SequenceDto KeysQuery { get; set; }
+		[ObservableAsProperty]
+		public bool IsKeysQuery { get; set; }
+
+		[Reactive]
+		public string TextQuery { get; set; }
+
+		[Reactive]
+		public SequenceDto KeysQuery { get; set; }
 
 		private ReadOnlyObservableCollection<ResultVo> _results;
 
@@ -40,11 +51,15 @@ namespace Wims.Ui
 			set => _results = value;
 		}
 
-		[ObservableAsProperty] public ContextDto Context { get; set; }
+		[ObservableAsProperty]
+		public ContextDto Context { get; set; }
 
-		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config, ContextService context) :
+		public MainViewModel(ISchedulers schedulers, IMediator mediator, WimsConfig config, ContextService context,
+			IErrorHandler error) :
 			base(schedulers, mediator)
 		{
+			Config = config;
+			Error = error;
 			_context = context;
 
 			LoadShortcuts = ReactiveCommand.CreateFromObservable<Void, ShortcutsDto>(_ => _mediator
@@ -53,6 +68,8 @@ namespace Wims.Ui
 					SourceDirectory = config.Directory
 				})
 				.ToObservable()
+				.Do(_ => { }, e => { error.OnError(e); })
+				.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
 				.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
 				{
 					Shortcuts = shortcuts
