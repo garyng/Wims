@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
@@ -13,6 +12,7 @@ using ReactiveUI.Fody.Helpers;
 using Wims.Core.Dto;
 using Wims.Core.Models;
 using Wims.Ui.Requests;
+using Wims.Ui.Vo;
 using Void = GaryNg.Utils.Void.Void;
 
 namespace Wims.Ui
@@ -32,9 +32,9 @@ namespace Wims.Ui
 		[Reactive] public string TextQuery { get; set; }
 		[Reactive] public SequenceDto KeysQuery { get; set; }
 
-		private ReadOnlyObservableCollection<ShortcutDto> _results;
+		private ReadOnlyObservableCollection<ResultVo> _results;
 
-		public ReadOnlyObservableCollection<ShortcutDto> Results
+		public ReadOnlyObservableCollection<ResultVo> Results
 		{
 			get => _results;
 			set => _results = value;
@@ -89,7 +89,7 @@ namespace Wims.Ui
 				.ToPropertyEx(this, vm => vm.IsKeysQuery);
 
 
-			var results = new SourceList<ShortcutDto>();
+			var results = new SourceList<ResultVo>();
 
 			results.Connect()
 				.ObserveOn(_schedulers.MainThread)
@@ -119,9 +119,9 @@ namespace Wims.Ui
 				.Subscribe();
 		}
 
-		private IObservable<IRequest<IList<ShortcutDto>>> Search<TRet>(
-			Expression<Func<MainViewModel, TRet>> queryProperty,
-			Func<TRet, IList<ShortcutDto>, IRequest<IList<ShortcutDto>>> requestFunc, QueryModes mode)
+		private IObservable<IRequest<IList<ResultVo>>> Search<TQuery>(
+			Expression<Func<MainViewModel, TQuery>> queryProperty,
+			Func<TQuery, IList<ShortcutDto>, IRequest<IList<ResultVo>>> requestFunc, QueryModes mode)
 		{
 			var modes = this.WhenAnyValue(vm => vm.QueryMode);
 

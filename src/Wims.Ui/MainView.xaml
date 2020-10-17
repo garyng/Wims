@@ -5,15 +5,19 @@
                    xmlns:converters="clr-namespace:NKristek.Wpf.Converters;assembly=NKristek.Wpf.Converters"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:dto="clr-namespace:Wims.Core.Dto;assembly=Wims.Core"
+                   xmlns:highlighter="clr-namespace:Wims.Ui.Controls.Highlighter"
                    xmlns:kr="clr-namespace:Wims.Ui.Controls.KeysRecorder"
                    xmlns:local="clr-namespace:Wims.Ui"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   xmlns:requests="clr-namespace:Wims.Ui.Requests"
                    xmlns:rx="http://reactiveui.net"
                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                    xmlns:tb="http://www.hardcodet.net/taskbar"
                    xmlns:utils="clr-namespace:GaryNg.Utils.Wpf.Controls;assembly=GaryNg.Utils.Wpf"
                    xmlns:utils1="clr-namespace:Wims.Ui.Utils"
+                   xmlns:vo="clr-namespace:Wims.Ui.Vo"
+                   x:Name="MainViewWindow"
                    Title="Wims"
                    Width="800"
                    Height="500"
@@ -146,27 +150,32 @@
 			              MouseDown="OnDrag">
 				<ListBox x:Name="Results" HorizontalContentAlignment="Stretch">
 					<ListBox.ItemTemplate>
-						<DataTemplate DataType="{x:Type dto:ShortcutDto}">
+						<DataTemplate DataType="{x:Type vo:ResultVo}">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0">
-									<TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Path=Description}" />
-									<TextBlock FontFamily="{StaticResource RobotoMono}"
-									           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-									           Text="{Binding Path=Sequence, Converter={utils1:SequenceDtoToStringConverter}}" />
+									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={utils1:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Text}}"
+									           highlighter:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
+									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Description}"
+									           Style="{StaticResource MaterialDesignBody1TextBlock}" />
+									<TextBlock highlighter:TextBlockHighlighter.Enable="{Binding ElementName=MainViewWindow, Path=ViewModel.QueryMode, Converter={utils1:ObjectIsEqualConverter}, ConverterParameter={x:Static local:QueryModes.Keys}}"
+									           highlighter:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
+									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Sequence, Converter={utils1:SequenceDtoToStringConverter}}"
+									           FontFamily="{StaticResource RobotoMono}"
+									           Style="{StaticResource MaterialDesignCaptionTextBlock}" />
 									<TextBlock FontFamily="{StaticResource RobotoMono}"
 									           Opacity="0.5"
 									           Style="{StaticResource MaterialDesignOverlineTextBlock}"
-									           Text="{Binding Path=.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
+									           Text="{Binding Path=.Shortcut.Context.Name, Converter={utils1:SequenceDtoToStringConverter}}" />
 								</StackPanel>
 								<Image Grid.Column="1"
 								       Width="24"
 								       Height="24"
 								       Opacity="0.5"
-								       Source="{Binding Context.Icon, Converter={local:StringToImageSourceConverter}}" />
+								       Source="{Binding Shortcut.Context.Icon, Converter={local:StringToImageSourceConverter}}" />
 							</Grid>
 
 						</DataTemplate>
