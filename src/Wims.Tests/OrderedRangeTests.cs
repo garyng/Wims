@@ -245,5 +245,21 @@ namespace Wims.Tests
 				}
 			};
 		}
+
+		[TestCase(0, 0, 0)]
+		[TestCase(1, 0, 1)]
+		[TestCase(1, 10, 9)]
+		[TestCase(10, 1, 9)]
+		public void Should_CalculateLengthCorrectly(int start, int end, int expected)
+		{
+			// Arrange
+			var range = new OrderedRange(start, end);
+
+			// Act
+			var result = range.Length;
+
+			// Assert
+			result.Should().Be(expected);
+		}
 	}
 }

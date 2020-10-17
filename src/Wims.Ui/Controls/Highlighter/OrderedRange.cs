@@ -11,6 +11,7 @@ namespace Wims.Ui.Controls.Highlighter
 	{
 		public int Start { get; }
 		public int End { get; }
+		public int Length => End - Start;
 
 		/// <param name="start">Inclusive start index</param>
 		/// <param name="end">Exclusive end index</param>
