@@ -41,14 +41,18 @@ namespace Wims.Ui.Requests
 
 			return await _fs.Directory.EnumerateFiles(sourceDir, "*.yml", SearchOption.AllDirectories)
 				.ToAsyncEnumerable()
-				.SelectAwait(async path => new {path, content = await _fs.File.ReadAllTextAsync(path)})
-				.Where(item => !string.IsNullOrWhiteSpace(item.content))
+				.SelectAwait(async path => new
+				{
+					path,
+					content = d.Deserialize<ShortcutsRo>(await _fs.File.ReadAllTextAsync(path))
+				})
+				.Where(item => item.content != null)
 				.Select(item =>
 				{
-					var obj = d.Deserialize<ShortcutsRo>(item.content);
-					obj.Path = item.path;
-					_validator.ValidateAndThrow(obj);
-					return obj;
+					var content = item.content;
+					content.Path = item.path;
+					_validator.ValidateAndThrow(content);
+					return content;
 				})
 				.Where(s => s.Contexts != null || s.Shortcuts != null)
 				.ToListAsync();
