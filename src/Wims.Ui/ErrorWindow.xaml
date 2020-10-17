@@ -13,21 +13,21 @@
         Closing="OnClosing"
         FontFamily="{md:MaterialDesignFont}"
         ShowInTaskbar="False"
-        TextElement.FontSize="12"
         TextElement.FontWeight="Medium"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-	<ScrollViewer Margin="8" VerticalScrollBarVisibility="Auto">
+	<ScrollViewer Margin="8"
+	              HorizontalScrollBarVisibility="Auto"
+	              VerticalScrollBarVisibility="Auto">
 		<TextBox md:TextFieldAssist.DecorationVisibility="Collapsed"
 		         BorderThickness="0"
 		         DataContext="{Binding ElementName=Window}"
 		         FontFamily="{StaticResource RobotoMono}"
-		         FontSize="14"
+		         FontSize="12"
 		         IsReadOnly="True"
 		         IsReadOnlyCaretVisible="True"
-		         Text="{Binding Exception, Mode=OneWay}"
-		         TextWrapping="Wrap" />
+		         Text="{Binding Exception, Mode=OneWay}" />
 	</ScrollViewer>
 </Window>

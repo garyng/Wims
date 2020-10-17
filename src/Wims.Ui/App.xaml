@@ -8,6 +8,7 @@
 			<Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="{x:Type ScrollBar}">
 				<Setter Property="materialDesign:ScrollBarAssist.ThumbCornerRadius" Value="4" />
 				<Setter Property="materialDesign:ScrollBarAssist.ThumbWidth" Value="8" />
+				<Setter Property="materialDesign:ScrollBarAssist.ThumbHeight" Value="8" />
 			</Style>
 			<FontFamily x:Key="RobotoMono">pack://application;,,,/Fonts/#Roboto Mono</FontFamily>
 
