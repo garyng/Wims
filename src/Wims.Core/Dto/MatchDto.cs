@@ -1,9 +1,13 @@
 ﻿
+using JetBrains.Annotations;
+
 namespace Wims.Core.Dto
 {
 	public class MatchDto
 	{
+		[CanBeNull]
 		public MaybeRegex Class { get; set; }
+		[CanBeNull]
 		public MaybeRegex Exe { get; set; }
 
 		public MatchDto(string @class, string exe)
