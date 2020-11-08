@@ -46,11 +46,11 @@ topmost: true
 ```
 
 - `directory`: the directory that contains the [shortcuts file](#shortcuts-file).
-- `activation`: the shortcut key to activate the main window (see [Keys enum](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=netcore-3.1) for available keys)
+- `activation` (optional): the shortcut key to activate the main window (see [Keys enum](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=netcore-3.1) for available keys)
   - Default value: `LWin + Escape`
-- `autoHide`: automatically hides the window when focus is lost
+- `autoHide` (optional): automatically hides the window when focus is lost
   - Default value: `false`
-- `topmost`: keep the window always on top
+- `topmost` (optional): keep the window always on top
   - Default value: `false`
 
 Order of configuration precedence:
@@ -82,7 +82,7 @@ contexts:
 
 - `"vs"`: the name of the context, which can be used by a `shortcut`.
 - `icon`: the path to an image. `svg` is also supported.
-- `match`: the conditions for determining whether the context is active.
+- `match`  (optional): the conditions for determining whether the context is active.
   - `exe`: match the process name of the current active window. Normally using `exe` is sufficient enough.
   - `class`: match the class name of the current active window.
   - Regex can be used in both `exe` and `class`, just wrap them inside `//`, eg: `/*.exe/`
@@ -106,7 +106,7 @@ For example, below are 2 shortcuts (the first is global, the second is associate
 ```yaml
 shortcuts:
   "Toggle active window always on top":
-    sequence: 
+    sequence:
      - Alt + F1
   "Navigate backward":
     context: vs
@@ -117,11 +117,12 @@ shortcuts:
 
 - `"Navigate backward"`: the name of the shortcut.
   - This is used for matching the search query when [searching with text](#search-by-text).
-- `context`: the name of the [`context`](#contexts).
+- `context`  (optional): the name of the [`context`](#contexts).
   - If this is left empty, the shortcut is considered as "global", and will be active only when there is no active context.
 - `sequence`: a sequence of chords that are pressed subsequently, eg: `Ctrl + K, Ctrl + F`
   - A chord is a sequence of keys that are pressed at the same time, eg: `Ctrl + Shift + P`
   - This is used for matching the search query when [searching with keys](#search-by-keys).
+
 # Development
 
 1. `git clone --recurse-submodules` as this repo uses submodules
