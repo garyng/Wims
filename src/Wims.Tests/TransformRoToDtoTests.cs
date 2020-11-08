@@ -432,5 +432,38 @@ namespace Wims.Tests
 			result.Shortcuts.Should().HaveCount(1);
 			result.Shortcuts[0].Context.Should().BeNull();
 		}
+
+		[Test]
+		public async Task Should_HandleIconOnlyContext()
+		{
+			// Arrange
+			var shortcuts = new[]
+			{
+				new ShortcutsRo
+				{
+					Contexts = new Dictionary<string, ContextRo>()
+					{
+						{
+							"icon", new ContextRo
+							{
+								Icon = "vs.png",
+							}
+						}
+					}
+				}
+			};
+
+			var handler = _auto.Resolve<TransformRawShortcutsToDtoRequestHandler>();
+			var request = new TransformRawShortcutsToDto
+			{
+				Shortcuts = shortcuts
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+			// Assert
+			result.Contexts.Should().HaveCount(1);
+		}
 	}
 }

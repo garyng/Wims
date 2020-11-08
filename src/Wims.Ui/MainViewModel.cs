@@ -63,17 +63,20 @@ namespace Wims.Ui
 			_context = context;
 
 			LoadShortcuts = ReactiveCommand.CreateFromObservable<Void, ShortcutsDto>(_ => _mediator
-				.Send(new LoadRawShortcutsFromFiles
-				{
-					SourceDirectory = config.Directory
-				})
-				.ToObservable()
-				.Do(_ => { }, e => { error.OnError(e); })
-				.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
-				.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
-				{
-					Shortcuts = shortcuts
-				})));
+					.Send(new LoadRawShortcutsFromFiles
+					{
+						SourceDirectory = config.Directory
+					})
+					.ToObservable()
+					.Do(_ => { }, error.OnError)
+					.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
+					.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
+					{
+						Shortcuts = shortcuts
+					}))
+					.Do(_ => { }, error.OnError)
+					.Catch<ShortcutsDto, Exception>(e => Observable.Return(new ShortcutsDto()))
+				);
 
 			RefreshContext = ReactiveCommand.Create<Void, Void>(_ =>
 			{
@@ -92,6 +95,7 @@ namespace Wims.Ui
 			_context.ActiveContext
 				.Log(this)
 				.CombineLatest(LoadShortcuts, (_, s) => s)
+				// todo: check for null
 				.Select(shortcuts => shortcuts.Contexts.Values.Where(c => _context.Match(c.Match)))
 				.Select(contexts => contexts.FirstOrDefault())
 				.ToPropertyEx(this, vm => vm.Context);

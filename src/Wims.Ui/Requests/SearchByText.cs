@@ -23,10 +23,10 @@ namespace Wims.Ui.Requests
 					.Select(s => new ResultVo(s))
 					.ToList();
 
-			return FuzzySharp.Process.ExtractTop(new ShortcutDto
+			return FuzzySharp.Process.ExtractSorted(new ShortcutDto
 				{
 					Description = request.Query
-				}, request.Shortcuts, s => s.Description.ToLowerInvariant(), limit: 10, cutoff: 60)
+				}, request.Shortcuts, s => s.Description.ToLowerInvariant(), cutoff: 60)
 				.Select(r => new ResultVo(r.Value, s => s.Description, request.Query))
 				.ToList();
 		}

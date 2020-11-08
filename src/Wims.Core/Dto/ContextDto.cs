@@ -1,11 +1,17 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace Wims.Core.Dto
 {
 	public class ContextDto : IEquatable<ContextDto>
 	{
+		[NotNull]
 		public string Name { get; set; }
+
+		[NotNull]
 		public string Icon { get; set; }
+
+		[CanBeNull]
 		public MatchDto Match { get; set; }
 
 		public bool Equals(ContextDto other)
@@ -20,7 +26,7 @@ namespace Wims.Core.Dto
 			if (ReferenceEquals(null, obj)) return false;
 			if (ReferenceEquals(this, obj)) return true;
 			if (obj.GetType() != this.GetType()) return false;
-			return Equals((ContextDto)obj);
+			return Equals((ContextDto) obj);
 		}
 
 		public override int GetHashCode()

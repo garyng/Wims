@@ -17,7 +17,6 @@ namespace Wims.Ui
 				var window = new ErrorWindow(e);
 				window.ShowDialog();
 			});
-
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Wims.Core.Models
 		[NotNull]
 		public string Icon { get; set; }
 
-		[NotNull]
+		[CanBeNull]
 		public MatchRo Match { get; set; }
 	}
 }

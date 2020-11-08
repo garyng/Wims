@@ -12,7 +12,6 @@ namespace Wims.Ui.Validators
 				.NotNull();
 			RuleFor(x => x.Match)
 				.UseFullPropertyName()
-				.NotNull()
 				.SetValidator(new MatchRoValidator());
 		}
 	}
