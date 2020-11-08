@@ -63,17 +63,20 @@ namespace Wims.Ui
 			_context = context;
 
 			LoadShortcuts = ReactiveCommand.CreateFromObservable<Void, ShortcutsDto>(_ => _mediator
-				.Send(new LoadRawShortcutsFromFiles
-				{
-					SourceDirectory = config.Directory
-				})
-				.ToObservable()
-				.Do(_ => { }, error.OnError)
-				.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
-				.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
-				{
-					Shortcuts = shortcuts
-				})));
+					.Send(new LoadRawShortcutsFromFiles
+					{
+						SourceDirectory = config.Directory
+					})
+					.ToObservable()
+					.Do(_ => { }, error.OnError)
+					.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
+					.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
+					{
+						Shortcuts = shortcuts
+					}))
+					.Do(_ => { }, error.OnError)
+					.Catch<ShortcutsDto, Exception>(e => Observable.Return(new ShortcutsDto()))
+				);
 
 			RefreshContext = ReactiveCommand.Create<Void, Void>(_ =>
 			{
@@ -136,7 +139,7 @@ namespace Wims.Ui
 				}))
 				.Subscribe();
 		}
-		
+
 		private IObservable<IRequest<IList<ResultVo>>> Search<TQuery>(
 			Expression<Func<MainViewModel, TQuery>> queryProperty,
 			Func<TQuery, IList<ShortcutDto>, IRequest<IList<ResultVo>>> requestFunc, QueryModes mode)
