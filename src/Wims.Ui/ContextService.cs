@@ -4,6 +4,7 @@ using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using JetBrains.Annotations;
 using Vanara.PInvoke;
 using Wims.Core.Dto;
 
@@ -96,11 +97,11 @@ namespace Wims.Ui
 			_context.OnNext(null);
 		}
 
-		public bool Match(MatchDto match)
+		public bool Match([CanBeNull] MatchDto match)
 		{
 			var active = _context.Value;
 			if (active == null) return false;
-			return match.IsMatch(active.Class, active.Exe);
+			return match?.IsMatch(active.Class, active.Exe) == true;
 		}
 	}
 }

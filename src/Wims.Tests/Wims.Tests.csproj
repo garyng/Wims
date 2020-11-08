@@ -10,6 +10,7 @@
     <None Remove="Data\0context-0shortcut.yml" />
     <None Remove="Data\1context-1shortcut.yml" />
     <None Remove="Data\2context-2shortcuts.yml" />
+    <None Remove="Data\icon-only-context.yml" />
     <None Remove="Data\invalid-config.yml" />
     <None Remove="Data\no-context-2shortcuts.yml" />
   </ItemGroup>
@@ -17,6 +18,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\0context-0shortcut.yml" />
     <EmbeddedResource Include="Data\invalid-config.yml" />
+    <EmbeddedResource Include="Data\icon-only-context.yml" />
     <EmbeddedResource Include="Data\no-context-2shortcuts.yml" />
   </ItemGroup>
 

@@ -68,7 +68,7 @@ namespace Wims.Ui
 					SourceDirectory = config.Directory
 				})
 				.ToObservable()
-				.Do(_ => { }, e => { error.OnError(e); })
+				.Do(_ => { }, error.OnError)
 				.Catch<IList<ShortcutsRo>, Exception>(e => Observable.Empty<IList<ShortcutsRo>>())
 				.SelectMany(shortcuts => _mediator.Send(new TransformRawShortcutsToDto
 				{
@@ -92,6 +92,7 @@ namespace Wims.Ui
 			_context.ActiveContext
 				.Log(this)
 				.CombineLatest(LoadShortcuts, (_, s) => s)
+				// todo: check for null
 				.Select(shortcuts => shortcuts.Contexts.Values.Where(c => _context.Match(c.Match)))
 				.Select(contexts => contexts.FirstOrDefault())
 				.ToPropertyEx(this, vm => vm.Context);
@@ -135,7 +136,7 @@ namespace Wims.Ui
 				}))
 				.Subscribe();
 		}
-
+		
 		private IObservable<IRequest<IList<ResultVo>>> Search<TQuery>(
 			Expression<Func<MainViewModel, TQuery>> queryProperty,
 			Func<TQuery, IList<ShortcutDto>, IRequest<IList<ResultVo>>> requestFunc, QueryModes mode)

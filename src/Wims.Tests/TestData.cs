@@ -12,6 +12,7 @@ namespace Wims.Tests
 		public static string NoContext() => "no-context-2shortcuts.yml".Load();
 		public static string ZeroContext0Shortcut() => "0context-0shortcut.yml".Load();
 		public static string InvalidConfig() => "invalid-config.yml".Load();
+		public static string IconOnlyContext() => "icon-only-context.yml".Load();
 
 		private static string Load(this string filename)
 		{

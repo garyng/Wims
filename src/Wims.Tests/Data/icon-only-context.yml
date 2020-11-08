@@ -1,0 +1,9 @@
+contexts:
+  "vscode":
+    icon: vscode.png
+
+shortcuts:
+  "Show Command Palette":
+    context: vscode
+    sequence:
+      - Ctrl + Shift + P

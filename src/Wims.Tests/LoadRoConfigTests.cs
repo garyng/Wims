@@ -210,5 +210,28 @@ namespace Wims.Tests
 			action.Should().Throw<ValidationException>();
 		}
 
+		[Test]
+		public async Task Should_HandleIconOnlyContext()
+		{
+			var fs = new MockFileSystem(new Dictionary<string, MockFileData>
+			{
+				{@"c:\root\shortcuts\vscode\shortcuts.yml", new MockFileData(TestData.IconOnlyContext())},
+			});
+
+			_auto.Provide<IFileSystem>(fs);
+
+			var handler = _auto.Resolve<LoadRawShortcutsFromFilesRequestHandler>();
+			var request = new LoadRawShortcutsFromFiles()
+			{
+				SourceDirectory = @"C:\root\shortcuts\"
+			};
+
+			// Act
+			var result = await handler.Handle(request, CancellationToken.None);
+
+			// Assert
+			result.Should().HaveCount(1);
+			result[0].Contexts.Should().HaveCount(1);
+		}
 	}
 }
