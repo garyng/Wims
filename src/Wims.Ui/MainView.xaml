@@ -159,6 +159,7 @@
 									           highlighter:TextBlockHighlighter.Ranges="{Binding Path=Matches}"
 									           highlighter:TextBlockHighlighter.Text="{Binding Path=Shortcut.Sequence, Converter={converters:SequenceDtoToStringConverter}}"
 									           FontFamily="{StaticResource RobotoMono}"
+									           Opacity="0.8"
 									           Style="{StaticResource MaterialDesignCaptionTextBlock}" />
 									<TextBlock FontFamily="{StaticResource RobotoMono}"
 									           Opacity="0.5"
